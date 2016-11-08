@@ -49,34 +49,65 @@ should be turned into
 "node_refs": ["305896090", "1719825889"]
 """
 
+expected_cuisines = ["asian", "thai", "regional", "ice_cream", "chinese",
+                    "turkish", "german", "pizza", "mexican", "italian",
+                    "indian", "steak_house", "argentinian", "greek", "russian",
+                    "kebab", "french", "burger", "oriental", "sausages",
+                    "cake", "shisha", "spanish", "donuts", "vietnamese",
+                    "lahmacun", "tapas", "sandwich", "pasta", "salad", "sushi",
+                    "japanese", "balkan", "international"]
+
+cuisine_mapping = {
+                    "Wok und mehr": "asian",
+                    "Wurst": "sausages",
+                    "Balkan und internationale Speisen": "balkan; international",
+                    "icecream": "ice_cream",
+                    "german and french": "german; french",
+                    "Kuchen,_Flammkuchen,_Espresso,_Capppuccino,Getränke":
+                    "cake; tarte flambée; coffee; drinks"
+                    }
+
+def update_cuisine(cuisine):
+    if cuisine not in expected_cuisines:
+        if cuisine in cuisine_mapping:
+            cuisine = cuisine_mapping[cuisine]
+        elif "," in cuisine:
+            cuisine = cuisine.replace(",", ";")
+        if ";" in cuisine:
+            cuisine_list = cuisine.split(';')
+            for i in xrange(len(cuisine_list)):
+                if cuisine_list[i] in cuisine_mapping:
+                    cuisine_list[i] = cuisine_mapping[cuisine_list[i]]
+            cuisine = ";".join(cuisine_list)
+    return cuisine
+
+
+
 def update_phone(phone_number):
     # found at http://stackoverflow.com/questions/6116978/python-replace-multiple-strings
-
-    rep = {"-": "", "(": "", ")": "", "/": "", " ": "","-": "", "+": "", ".": ""}
+    rep = {"-": "", "(": "", ")": "", "/": "", " ": "", "-": "", "+": "", ".": ""}
     rep = dict((re.escape(k), v) for k, v in rep.iteritems())
     pattern = re.compile("|".join(rep.keys()))
-    phone_number = pattern.sub(lambda m: rep[re.escape(m.group(0))], phone_number)
-
+    phone_number = pattern.sub(lambda m: rep[re.escape(m.group(0))],phone_number)
 
     if phone_number[:2] == "49":
-         phone_number = "0" + phone_number[2:]
+        phone_number = "0" + phone_number[2:]
 
     if phone_number[:4] == "0049":
-         phone_number = phone_number[4:]
+        phone_number = phone_number[4:]
 
     if phone_number[:2] == "00":
-         phone_number = phone_number[1:]
+        phone_number = phone_number[1:]
 
     if phone_number[0] != "0" and phone_number != "112":
         phone_number = "0" + phone_number
-
 
     return phone_number
 
 
 problemchars = re.compile(r'[=\+/&<>;\'"\?%#$@\,\. \t\r\n]')
 
-CREATED = [ "version", "changeset", "timestamp", "user", "uid"]
+CREATED = ["version", "changeset", "timestamp", "user", "uid"]
 
 
 def shape_element(element):
@@ -106,6 +137,10 @@ def shape_element(element):
                 v = update_phone(v)
                 node[k] = v
 
+            if k == "cuisine":
+                v = update_cuisine(v)
+                node[k] = v
+
             if problemchars.search(k) is not None:
                 continue
             elif ":" in k:
@@ -119,7 +154,7 @@ def shape_element(element):
                     new_key = k.replace(':', "_")
                     node[new_key] = v
             else:
-                 node[k] = v
+                node[k] = v
 
         # children way
         if element.tag == 'way':
@@ -129,13 +164,12 @@ def shape_element(element):
                 if ref is not None:
                     node["node_refs"].append(ref)
 
-
         return node
     else:
         return None
 
 
-def process_map(file_in, pretty = False):
+def process_map(file_in, pretty=False):
     # You do not need to change this file
     file_out = "{0}.json".format(file_in)
     data = []

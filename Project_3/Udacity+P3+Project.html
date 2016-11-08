@@ -11751,7 +11751,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Udacity-Project-P3:-Wrangle-OpenStreetMap-Data">Udacity Project P3: Wrangle OpenStreetMap Data<a class="anchor-link" href="#Udacity-Project-P3:-Wrangle-OpenStreetMap-Data">&#182;</a></h1><h2 id="Introduction">Introduction<a class="anchor-link" href="#Introduction">&#182;</a></h2><p>I used an OpenStreetMap export of the area of Paderborn, the place where I live.</p>
+<h1 id="Udacity-Project-P3:-Wrangle-OpenStreetMap-Data">Udacity Project P3: Wrangle OpenStreetMap Data<a class="anchor-link" href="#Udacity-Project-P3:-Wrangle-OpenStreetMap-Data">&#182;</a></h1><h2 id="Introduction">Introduction<a class="anchor-link" href="#Introduction">&#182;</a></h2><p>I used an OpenStreetMap export of the area of Paderborn, Germany, the place where I live.</p>
 
 </div>
 </div>
@@ -11779,7 +11779,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
@@ -11878,13 +11878,67 @@ There were also some mobile phone numbers (beginning with 017..., for example) a
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Cuisines">Cuisines<a class="anchor-link" href="#Cuisines">&#182;</a></h3><p>Some restaurants also have some information about the cuisine they offer. I noticed some inconsistencies regarding the spelling or formatting. There were also four entries with German descriptions.
+Furthermore, there were some values with several cuisines seperated by semicolons, so I split them, checked every single value and converted them back to a string again.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">expected_cuisines</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;asian&quot;</span><span class="p">,</span> <span class="s2">&quot;thai&quot;</span><span class="p">,</span> <span class="s2">&quot;regional&quot;</span><span class="p">,</span> <span class="s2">&quot;ice_cream&quot;</span><span class="p">,</span> <span class="s2">&quot;chinese&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;turkish&quot;</span><span class="p">,</span> <span class="s2">&quot;german&quot;</span><span class="p">,</span> <span class="s2">&quot;pizza&quot;</span><span class="p">,</span> <span class="s2">&quot;mexican&quot;</span><span class="p">,</span> <span class="s2">&quot;italian&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;indian&quot;</span><span class="p">,</span> <span class="s2">&quot;steak_house&quot;</span><span class="p">,</span> <span class="s2">&quot;argentinian&quot;</span><span class="p">,</span> <span class="s2">&quot;greek&quot;</span><span class="p">,</span> <span class="s2">&quot;russian&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;kebab&quot;</span><span class="p">,</span> <span class="s2">&quot;french&quot;</span><span class="p">,</span> <span class="s2">&quot;burger&quot;</span><span class="p">,</span> <span class="s2">&quot;oriental&quot;</span><span class="p">,</span> <span class="s2">&quot;sausages&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;cake&quot;</span><span class="p">,</span> <span class="s2">&quot;shisha&quot;</span><span class="p">,</span> <span class="s2">&quot;spanish&quot;</span><span class="p">,</span> <span class="s2">&quot;donuts&quot;</span><span class="p">,</span> <span class="s2">&quot;vietnamese&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;lahmacun&quot;</span><span class="p">,</span> <span class="s2">&quot;tapas&quot;</span><span class="p">,</span> <span class="s2">&quot;sandwich&quot;</span><span class="p">,</span> <span class="s2">&quot;pasta&quot;</span><span class="p">,</span> <span class="s2">&quot;salad&quot;</span><span class="p">,</span> <span class="s2">&quot;sushi&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;japanese&quot;</span><span class="p">,</span> <span class="s2">&quot;balkan&quot;</span><span class="p">,</span> <span class="s2">&quot;international&quot;</span><span class="p">]</span>
+
+<span class="n">cuisine_mapping</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s2">&quot;Wok und mehr&quot;</span><span class="p">:</span> <span class="s2">&quot;asian&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;Wurst&quot;</span><span class="p">:</span> <span class="s2">&quot;sausages&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;Balkan und internationale Speisen&quot;</span><span class="p">:</span> <span class="s2">&quot;balkan; international&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;icecream&quot;</span><span class="p">:</span> <span class="s2">&quot;ice_cream&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;german and french&quot;</span><span class="p">:</span> <span class="s2">&quot;german; french&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;Kuchen,_Flammkuchen,_Espresso,_Capppuccino,Getränke&quot;</span><span class="p">:</span>
+                    <span class="s2">&quot;cake; tarte flambée; coffee; drinks&quot;</span>
+                    <span class="p">}</span>
+
+<span class="k">def</span> <span class="nf">update_cuisine</span><span class="p">(</span><span class="n">cuisine</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">cuisine</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">expected_cuisines</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">cuisine</span> <span class="ow">in</span> <span class="n">cuisine_mapping</span><span class="p">:</span>
+            <span class="n">cuisine</span> <span class="o">=</span> <span class="n">cuisine_mapping</span><span class="p">[</span><span class="n">cuisine</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="s2">&quot;,&quot;</span> <span class="ow">in</span> <span class="n">cuisine</span><span class="p">:</span>
+            <span class="n">cuisine</span> <span class="o">=</span> <span class="n">cuisine</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot;;&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;;&quot;</span> <span class="ow">in</span> <span class="n">cuisine</span><span class="p">:</span>
+            <span class="n">cuisine_list</span> <span class="o">=</span> <span class="n">cuisine</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cuisine_list</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="n">cuisine_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">in</span> <span class="n">cuisine_mapping</span><span class="p">:</span>
+                    <span class="n">cuisine_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">cuisine_mapping</span><span class="p">[</span><span class="n">cuisine_list</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+            <span class="n">cuisine</span> <span class="o">=</span> <span class="s2">&quot;;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cuisine_list</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cuisine</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Explore-the-data">Explore the data<a class="anchor-link" href="#Explore-the-data">&#182;</a></h2><h3 id="Overview">Overview<a class="anchor-link" href="#Overview">&#182;</a></h3>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[46]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pprint</span> <span class="k">import</span> <span class="n">pprint</span>
@@ -11902,7 +11956,7 @@ There were also some mobile phone numbers (beginning with 017..., for example) a
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[47]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Filesizes:&quot;</span><span class="p">)</span>
@@ -11922,7 +11976,7 @@ There were also some mobile phone numbers (beginning with 017..., for example) a
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Filesizes:
 The original OSM file is 310.451692 MB
-The original JSON file is 334.587118 MB
+The original JSON file is 333.523074 MB
 </pre>
 </div>
 </div>
@@ -11933,7 +11987,7 @@ The original JSON file is 334.587118 MB
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[48]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Users: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">paderborn</span><span class="o">.</span><span class="n">distinct</span><span class="p">(</span><span class="s2">&quot;created.user&quot;</span><span class="p">))))</span>
@@ -11960,7 +12014,7 @@ The original JSON file is 334.587118 MB
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[49]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of documents: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">paderborn</span><span class="o">.</span><span class="n">find</span><span class="p">()</span><span class="o">.</span><span class="n">count</span><span class="p">()))</span>
@@ -11987,7 +12041,7 @@ The original JSON file is 334.587118 MB
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[50]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of nodes:&quot;</span><span class="p">,</span><span class="n">paderborn</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s1">&#39;type&#39;</span><span class="p">:</span><span class="s1">&#39;node&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>
@@ -12025,7 +12079,7 @@ Number of ways: 212194
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="prompt input_prompt">In&nbsp;[51]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">leisure</span> <span class="o">=</span> <span class="n">paderborn</span><span class="o">.</span><span class="n">aggregate</span><span class="p">([{</span><span class="s1">&#39;$match&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;leisure&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;$exists&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}}},</span>
@@ -12046,7 +12100,7 @@ Number of ways: 212194
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[{&#39;count&#39;: 557, &#39;_id&#39;: &#39;pitch&#39;}, {&#39;count&#39;: 486, &#39;_id&#39;: &#39;playground&#39;}, {&#39;count&#39;: 168, &#39;_id&#39;: &#39;park&#39;}, {&#39;count&#39;: 138, &#39;_id&#39;: &#39;sports_centre&#39;}, {&#39;count&#39;: 122, &#39;_id&#39;: &#39;nature_reserve&#39;}, {&#39;count&#39;: 117, &#39;_id&#39;: &#39;garden&#39;}, {&#39;count&#39;: 95, &#39;_id&#39;: &#39;common&#39;}, {&#39;count&#39;: 44, &#39;_id&#39;: &#39;picnic_table&#39;}, {&#39;count&#39;: 36, &#39;_id&#39;: &#39;swimming_pool&#39;}, {&#39;count&#39;: 27, &#39;_id&#39;: &#39;horse_riding&#39;}]
+<pre>[{&#39;_id&#39;: &#39;pitch&#39;, &#39;count&#39;: 557}, {&#39;_id&#39;: &#39;playground&#39;, &#39;count&#39;: 486}, {&#39;_id&#39;: &#39;park&#39;, &#39;count&#39;: 168}, {&#39;_id&#39;: &#39;sports_centre&#39;, &#39;count&#39;: 138}, {&#39;_id&#39;: &#39;nature_reserve&#39;, &#39;count&#39;: 122}, {&#39;_id&#39;: &#39;garden&#39;, &#39;count&#39;: 117}, {&#39;_id&#39;: &#39;common&#39;, &#39;count&#39;: 95}, {&#39;_id&#39;: &#39;picnic_table&#39;, &#39;count&#39;: 44}, {&#39;_id&#39;: &#39;swimming_pool&#39;, &#39;count&#39;: 36}, {&#39;_id&#39;: &#39;horse_riding&#39;, &#39;count&#39;: 27}]
 </pre>
 </div>
 </div>
@@ -12066,7 +12120,7 @@ Number of ways: 212194
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[52]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">amenity</span> <span class="o">=</span> <span class="n">paderborn</span><span class="o">.</span><span class="n">aggregate</span><span class="p">([{</span><span class="s1">&#39;$match&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;amenity&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;$exists&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}}},</span>
@@ -12087,7 +12141,7 @@ Number of ways: 212194
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[{&#39;count&#39;: 4031, &#39;_id&#39;: &#39;bench&#39;}, {&#39;count&#39;: 1676, &#39;_id&#39;: &#39;parking&#39;}, {&#39;count&#39;: 822, &#39;_id&#39;: &#39;waste_basket&#39;}, {&#39;count&#39;: 675, &#39;_id&#39;: &#39;vending_machine&#39;}, {&#39;count&#39;: 455, &#39;_id&#39;: &#39;bicycle_parking&#39;}, {&#39;count&#39;: 374, &#39;_id&#39;: &#39;recycling&#39;}, {&#39;count&#39;: 287, &#39;_id&#39;: &#39;restaurant&#39;}, {&#39;count&#39;: 281, &#39;_id&#39;: &#39;post_box&#39;}, {&#39;count&#39;: 276, &#39;_id&#39;: &#39;place_of_worship&#39;}, {&#39;count&#39;: 250, &#39;_id&#39;: &#39;shelter&#39;}, {&#39;count&#39;: 234, &#39;_id&#39;: &#39;hunting_stand&#39;}, {&#39;count&#39;: 175, &#39;_id&#39;: &#39;kindergarten&#39;}, {&#39;count&#39;: 172, &#39;_id&#39;: &#39;school&#39;}, {&#39;count&#39;: 153, &#39;_id&#39;: &#39;fast_food&#39;}, {&#39;count&#39;: 134, &#39;_id&#39;: &#39;bank&#39;}, {&#39;count&#39;: 131, &#39;_id&#39;: &#39;pub&#39;}, {&#39;count&#39;: 126, &#39;_id&#39;: &#39;telephone&#39;}, {&#39;count&#39;: 121, &#39;_id&#39;: &#39;cafe&#39;}, {&#39;count&#39;: 107, &#39;_id&#39;: &#39;toilets&#39;}, {&#39;count&#39;: 92, &#39;_id&#39;: &#39;water&#39;}]
+<pre>[{&#39;_id&#39;: &#39;bench&#39;, &#39;count&#39;: 4031}, {&#39;_id&#39;: &#39;parking&#39;, &#39;count&#39;: 1676}, {&#39;_id&#39;: &#39;waste_basket&#39;, &#39;count&#39;: 822}, {&#39;_id&#39;: &#39;vending_machine&#39;, &#39;count&#39;: 675}, {&#39;_id&#39;: &#39;bicycle_parking&#39;, &#39;count&#39;: 455}, {&#39;_id&#39;: &#39;recycling&#39;, &#39;count&#39;: 374}, {&#39;_id&#39;: &#39;restaurant&#39;, &#39;count&#39;: 287}, {&#39;_id&#39;: &#39;post_box&#39;, &#39;count&#39;: 281}, {&#39;_id&#39;: &#39;place_of_worship&#39;, &#39;count&#39;: 276}, {&#39;_id&#39;: &#39;shelter&#39;, &#39;count&#39;: 250}]
 </pre>
 </div>
 </div>
@@ -12108,7 +12162,7 @@ Number of ways: 212194
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[68]:</div>
+<div class="prompt input_prompt">In&nbsp;[53]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">bench_material</span> <span class="o">=</span> <span class="n">paderborn</span><span class="o">.</span><span class="n">aggregate</span><span class="p">([{</span><span class="s1">&#39;$match&#39;</span><span class="p">:{</span><span class="s1">&#39;amenity&#39;</span><span class="p">:</span> <span class="s1">&#39;bench&#39;</span><span class="p">}},</span>
@@ -12150,7 +12204,7 @@ Number of ways: 212194
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[48]:</div>
+<div class="prompt input_prompt">In&nbsp;[54]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">bench_colour</span> <span class="o">=</span> <span class="n">paderborn</span><span class="o">.</span><span class="n">aggregate</span><span class="p">([{</span><span class="s1">&#39;$match&#39;</span><span class="p">:{</span><span class="s1">&#39;amenity&#39;</span><span class="p">:</span> <span class="s1">&#39;bench&#39;</span><span class="p">}},</span>
@@ -12192,7 +12246,7 @@ Number of ways: 212194
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[70]:</div>
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">bench_seats</span> <span class="o">=</span> <span class="n">paderborn</span><span class="o">.</span><span class="n">aggregate</span><span class="p">([{</span><span class="s1">&#39;$match&#39;</span><span class="p">:{</span><span class="s1">&#39;amenity&#39;</span><span class="p">:</span> <span class="s1">&#39;bench&#39;</span><span class="p">}},</span>
@@ -12235,7 +12289,7 @@ Number of ways: 212194
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[40]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">restaurant_opening</span> <span class="o">=</span> <span class="n">paderborn</span><span class="o">.</span><span class="n">aggregate</span><span class="p">([{</span><span class="s1">&#39;$match&#39;</span><span class="p">:{</span><span class="s1">&#39;amenity&#39;</span><span class="p">:</span> <span class="s1">&#39;restaurant&#39;</span><span class="p">}},</span>
@@ -12257,7 +12311,40 @@ Number of ways: 212194
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[{&#39;count&#39;: 158, &#39;_id&#39;: None}, {&#39;count&#39;: 2, &#39;_id&#39;: &#39;Mo-Su 11:00-23:00&#39;}, {&#39;count&#39;: 2, &#39;_id&#39;: &#39;Mo-Su 11:30-23:00&#39;}, {&#39;count&#39;: 2, &#39;_id&#39;: &#39;off&#39;}, {&#39;count&#39;: 2, &#39;_id&#39;: &#39;Mo-Su 09:00+&#39;}, {&#39;count&#39;: 1, &#39;_id&#39;: &#39;Mo-Sa 11:30-15:00, 18:00-22:30; Su off&#39;}, {&#39;count&#39;: 1, &#39;_id&#39;: &#39;Mo-Fr 17:00-01:00, Sa,Su,PH 09:00-01:00&#39;}, {&#39;count&#39;: 1, &#39;_id&#39;: &#39;Tu-Fr 10:45-14:30, 17:00-23:00; Sa-Mo 16:00-23:00&#39;}, {&#39;count&#39;: 1, &#39;_id&#39;: &#39;Tu-Su 12:00-15:00,18:00-24:00&#39;}, {&#39;count&#39;: 1, &#39;_id&#39;: &#39;We-Su 11:30-22:30; Mo-Tu off&#39;}]
+<pre>[{&#39;_id&#39;: None, &#39;count&#39;: 158}, {&#39;_id&#39;: &#39;Mo-Su 11:00-23:00&#39;, &#39;count&#39;: 2}, {&#39;_id&#39;: &#39;Mo-Su 11:30-23:00&#39;, &#39;count&#39;: 2}, {&#39;_id&#39;: &#39;off&#39;, &#39;count&#39;: 2}, {&#39;_id&#39;: &#39;Mo-Su 09:00+&#39;, &#39;count&#39;: 2}, {&#39;_id&#39;: &#39;Mo-Sa 11:30-15:00, 18:00-22:30; Su off&#39;, &#39;count&#39;: 1}, {&#39;_id&#39;: &#39;Mo-Fr 17:00-01:00, Sa,Su,PH 09:00-01:00&#39;, &#39;count&#39;: 1}, {&#39;_id&#39;: &#39;Tu-Fr 10:45-14:30, 17:00-23:00; Sa-Mo 16:00-23:00&#39;, &#39;count&#39;: 1}, {&#39;_id&#39;: &#39;Tu-Su 12:00-15:00,18:00-24:00&#39;, &#39;count&#39;: 1}, {&#39;_id&#39;: &#39;We-Su 11:30-22:30; Mo-Tu off&#39;, &#39;count&#39;: 1}]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">restaurant_opening</span> <span class="o">=</span> <span class="n">paderborn</span><span class="o">.</span><span class="n">aggregate</span><span class="p">([{</span><span class="s1">&#39;$match&#39;</span><span class="p">:{</span><span class="s1">&#39;amenity&#39;</span><span class="p">:</span> <span class="s1">&#39;restaurant&#39;</span><span class="p">}},</span>
+        <span class="p">{</span><span class="s1">&#39;$group&#39;</span><span class="p">:{</span><span class="s1">&#39;_id&#39;</span><span class="p">:</span><span class="s1">&#39;$cuisine&#39;</span><span class="p">,</span>
+                   <span class="s1">&#39;count&#39;</span><span class="p">:{</span><span class="s1">&#39;$sum&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">}}},</span>
+        <span class="p">{</span><span class="s1">&#39;$sort&#39;</span><span class="p">:{</span><span class="s1">&#39;count&#39;</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">}},</span>
+        <span class="p">{</span><span class="s1">&#39;$limit&#39;</span><span class="p">:</span><span class="mi">10</span><span class="p">}])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">restaurant_opening</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[{&#39;_id&#39;: None, &#39;count&#39;: 110}, {&#39;_id&#39;: &#39;italian&#39;, &#39;count&#39;: 31}, {&#39;_id&#39;: &#39;pizza&#39;, &#39;count&#39;: 27}, {&#39;_id&#39;: &#39;german&#39;, &#39;count&#39;: 25}, {&#39;_id&#39;: &#39;regional&#39;, &#39;count&#39;: 22}, {&#39;_id&#39;: &#39;greek&#39;, &#39;count&#39;: 17}, {&#39;_id&#39;: &#39;indian&#39;, &#39;count&#39;: 8}, {&#39;_id&#39;: &#39;chinese&#39;, &#39;count&#39;: 5}, {&#39;_id&#39;: &#39;asian&#39;, &#39;count&#39;: 5}, {&#39;_id&#39;: &#39;steak_house&#39;, &#39;count&#39;: 4}]
 </pre>
 </div>
 </div>
@@ -12271,18 +12358,30 @@ Number of ways: 212194
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Other-ideas-about-the-datasets">Other ideas about the datasets<a class="anchor-link" href="#Other-ideas-about-the-datasets">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>When I did some research on OSM and formats or tags used, I stumbled upon some website with local OSM groups and there was also one in Paderborn (which obviously isn't active anymore, but it existed). Furthermore, as shown above, 906 users worked on the data. For that reason I expected to have only a few inconsistencies and problems. That was only partly true.</p>
+<h2 id="Other-ideas-about-the-datasets">Other ideas about the datasets<a class="anchor-link" href="#Other-ideas-about-the-datasets">&#182;</a></h2><h3 id="Improvement-of-the-current-data">Improvement of the current data<a class="anchor-link" href="#Improvement-of-the-current-data">&#182;</a></h3><p>When I did some research on OSM and formats or tags used, I stumbled upon some website with local OSM groups and there was also one in Paderborn (which obviously isn't active anymore, but it existed). Furthermore, as shown above, 906 users worked on the data. For that reason I expected to have only a few inconsistencies and problems. That was only partly true.</p>
 <h4 id="Phone-numbers">Phone numbers<a class="anchor-link" href="#Phone-numbers">&#182;</a></h4><p>As mentioned above, the format of the phone numbers was inconsistent. I think I have shown that it is really easy to make them consistent and especially reduce wrongly formatted numbers. I am surprised that nobody did that yet.</p>
 <h4 id="Possible-improvements">Possible improvements<a class="anchor-link" href="#Possible-improvements">&#182;</a></h4><p>Additionally, I think the focus people had when creating the data was not that optimal. It's funny to have detailed data about benches, but I can't think of any practical need for that. In contrast, there are 158 restaurants without any information about opening hours, which is definitely a more important information. It might be difficult to find a good and consistent format, but I think it would be worth implementing and standardizing it.</p>
+<p>A suggestion could be:</p>
+<ul>
+<li>2-letter abbreviations for every day: mo, tu, we, th, fr, sa, su</li>
+<li>After each abbreviation we use a 4-digit integer representing the opening hours in a 24-hour format</li>
+<li>There could be other abbreviations to summarize groups of days (for example "wd" for weekdays) or specify opening hours for holidays.</li>
+<li>If the amenity is closed on one day, this could be simply left out.</li>
+</ul>
+<p>So if we want to use this schema for a shop with opening hours from 10 to 20 on weekdays, from 10 to 18 on Saturdays and closed on Sundays this could be: "wd1020sa1020"</p>
+<h3 id="Further-ideas">Further ideas<a class="anchor-link" href="#Further-ideas">&#182;</a></h3><p>The first review of this project provided me with a nice idea which I think is quite neat: adding Pokémon Go data to OSM.
+There are three things which are important for Pokémon Go players: Pokéstops, Gyms and, of course, spawn points of Pokémons. As the latter is changing often it's not possible to represent them on a static map.
+What is way more interesting are the places of Pokéstops and Gyms. They can be specified by their coordinates - basically the same as any other location.</p>
+<p><strong>Benefits</strong>:</p>
+<ul>
+<li>More users, who could also help to improve the quality of the maps.</li>
+<li>Neat tool for all Pokémon Go players as this can be used to plan walking routes (most efficient way to visit x Pokéstops) or find other interesting places.</li>
+</ul>
+<p><strong>Anticipated problems</strong>:</p>
+<ul>
+<li>Pokémon Go data is only interesting for a small number of people compared to the number of people who use OSM. Therefore, it is a large amount of data for a small group of people.</li>
+<li>This data adds more temporary data. Although you could say that for other information as well, I think you can say that game data is changing more frequently than data from the "real world".</li>
+</ul>
 
 </div>
 </div>
