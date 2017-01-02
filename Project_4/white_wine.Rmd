@@ -3,8 +3,10 @@ title: "White Wine Quality"
 output:
   html_document:
     theme: united
-    toc: true
-    toc_float: true
+    toc: yes
+    toc_float: yes
+  pdf_document:
+    toc: yes
 ---
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, packages}
@@ -277,9 +279,20 @@ The aim of this section is to find out about what influences the quality. I will
 
 
 
-```{r echo=FALSE, Bivariate_Plots}
+```{r echo=FALSE, Bivariate_Plots, fig.height = 8}
 
-M <- cor(wine[,2:length(names(wine ))-1], method = c("pearson"))
+M <- cor(wine[,c("fixed.acidity",
+                "volatile.acidity",
+                "citric.acid",
+                "residual.sugar",
+                "chlorides",
+               "free.sulfur.dioxide",
+                "total.sulfur.dioxide",
+                "density",
+                "pH",
+                "sulphates",
+                "alcohol",
+                "quality")], method = c("pearson"))
 corrplot(M,
          method = "circle",
          type="upper",
@@ -293,17 +306,15 @@ The correlation plot above shows that quality does not correlate with many of th
 The highest correlation is between density and residual.sugar (0.84), and density and alcohol (-0.78).
 
 
-### Alcohol and Quality
+## Alcohol and Quality
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 ggplot(wine, aes(x = quality, y = alcohol)) +
   geom_jitter(alpha = 0.2) +
-  geom_smooth(method=lm) +
-  scale_color_brewer(type = 'div')
+  geom_smooth(method=lm)
 
 
 ggplot(wine, aes(x = quality_factor, y = alcohol)) +
-  geom_boxplot() +
-  scale_color_brewer(type = 'div')
+  geom_boxplot()
 ```
 
 The first plot shows that there is a positive moderate correlation between quality and alcohol (.43).
@@ -315,17 +326,17 @@ table(round(wine$density,3), wine$quality_factor)
 
 This table gives us an explanation for this finding: there are relatively few wines graded with 3 and 4. For this reason, these values do have less influence on the correlation coefficient.
 
-### Quality and Density <a name="quality-density"/>
+## Quality and Density <a name="quality-density"/>
 ```{r echo=FALSE}
 ggplot(wine, aes(x = quality, y = density)) +
   geom_jitter(alpha = 0.2) +
   geom_smooth(method=lm) +
-  coord_cartesian(ylim = c(min(wine$density), 1.005))
+  coord_cartesian(ylim = c(min(wine$density), quantile(wine$density, probs = 0.99)))
 
 
 ggplot(wine, aes(x = quality_factor, y = density)) +
   geom_boxplot() +
-  coord_cartesian(ylim = c(min(wine$density), 1.005))
+  coord_cartesian(ylim = c(min(wine$density), quantile(wine$density, probs = 0.99)))
 ```
 
 Both plots show the negative correlation between quality and density. Similar to the previous plots, this is not very obvious for the lower quality levels. The level 5 wines even have the highest median for density.
@@ -335,23 +346,36 @@ Both plots show the negative correlation between quality and density. Similar to
 ggplot(wine, aes(x = alcohol, y = density)) +
   geom_jitter(alpha = 0.2) +
   geom_smooth(method=lm) +
-  coord_cartesian(xlim = c(min(wine$alcohol), 14),
-                  ylim = c(min(wine$density), 1.005))
+  coord_cartesian(xlim = c(min(wine$alcohol), quantile(wine$alcohol, probs = 0.99)),
+                  ylim = c(min(wine$density), quantile(wine$density, probs = 0.99)))
 
 ```
 
-The plot shows a trend that a wines with a low density have more alcohol.
+The plot shows a trend that wines with a low density have more alcohol.
 
 ## Density and Residual sugar
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 ggplot(wine, aes(x = residual.sugar, y = density)) +
   geom_jitter(alpha = 0.2) +
   geom_smooth(method=lm) +
-  coord_cartesian(xlim = c(min(wine$residual.sugar), 25),
-                  ylim = c(min(wine$density), 1.005))
+  coord_cartesian(xlim = c(min(wine$residual.sugar), quantile(wine$residual.sugar, probs = 0.99)),
+                  ylim = c(min(wine$density), quantile(wine$density, probs = 0.99))) +
+  scale_x_log10()
 ```
 
+The plot shows a trend that wines with a high density have more residual sugar.
 
+## Alcohol by quality (cumulated)
+
+This plot represent the two variables with the highest correlation. I have coloured them by factorizing the rounded value of alcohol. You can see a clear see how the colours are changing in the plot.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+ggplot(wine, aes(x = round(alcohol), fill = quality_factor)) +
+  geom_bar(stat="count", position = "fill") +
+  scale_fill_brewer(palette = 'BuPu')
+```
+
+This plot shows the quantities of each quality factor for each level of alcohol. You can see that the blue part is growing from the left to the right. Only the leftmost bar has a distinct red part, which represents the lowest level.
 
 # Bivariate Analysis <a id="bi-analysis"></a>
 
@@ -394,19 +418,6 @@ ggplot(wine, aes(x = density, y = alcohol,
 This is a plot for the two variables that correlate the most with alcohol. We can see that the points get a lighter colour the higher the density is and the lower the alcohol value.
 
 
-## Alcohol by quality (cumulated)
-
-This plot represent the two variables with the highest correlation. I have coloured them by factorizing the rounded value of alcohol. You can see a clear see how the colours are changing in the plot.
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(wine, aes(x = round(alcohol), fill = quality_factor)) +
-  geom_bar(stat="count", position = "fill") +
-  scale_color_brewer(type = 'div', palette = 'BuPu')
-```
-
-This plot shows the quantities of each quality factor for each level of alcohol. You can see that the blue part is growing from the left to the right. Only the leftmost bar has a distinct red part, which represents the lowest level.
-
-
 # Multivariate Analysis <a id="multi-analysis"></a>
 
 ### Talk about some of the relationships you observed in this part of the investigation. Were there features that strengthened each other in terms of looking at your feature(s) of interest?
@@ -432,8 +443,8 @@ ggplot(wine, aes(x = residual.sugar, y = density,
   scale_color_brewer(type = 'div', palette = 'BuPu') +
   scale_x_continuous(lim = c(min(wine$residual.sugar), quantile(wine$residual.sugar, 0.99))) +
   scale_y_continuous(lim = c(min(wine$density), quantile(wine$density, 0.99))) +
-  xlab('Residual Sugar') + 
-  ylab('Density') +
+  xlab('Residual Sugar (g / dm^3)') + 
+  ylab('Density ((g / cm^3)') +
   ggtitle('Residual Sugar vs. Density by Alcohol') +
   guides(colour=guide_legend(title="Alcohol in %"))
 ```
@@ -444,17 +455,17 @@ This scatterplot shows the distribution the variable *residual.sugar* on the x-a
 
 ### Plot Two
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=8}
 ggplot(wine, aes(x = quality_factor, y = alcohol)) +
   geom_boxplot() +
   coord_cartesian(ylim = c(min(wine$alcohol), quantile(wine$alcohol, 0.99))) +
   xlab('Quality Factor') + 
-  ylab('Density') +
+  ylab('Density (g / cm^3)') +
   ggtitle('Quality vs. Density')
 ```
 
 ### Description Two
-For me, this is the most suprising plot in this report. While there is a correlation between the quality and alcohol (.43), it's not possible to see this correlation in the box plot.
+For me, this is the most suprising plot in this report. While there is a moderate correlation between the quality and alcohol (0.43), it's not possible to identify this correlation in the box plot.
 One could intuitively think that the boxes should be higher with each quality level as these variables correlate positively. This is not true for level 3, 4 and 5. On the contrary, they are even lower for these three levels.
 
 As I have explained in the [section above](#quality-density), there are relatively few wines graded with 3 and 4, so this plot is surprising, but it can be explained. However, it shows that it is often not enough to present data with only one plot. Showing only this boxplot could have lead to the wrong impression that wine with a low density has a middle quality level.
@@ -464,16 +475,33 @@ As I have explained in the [section above](#quality-density), there are relative
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 ggplot(wine, aes(x = round(alcohol), fill = quality_factor)) +
   geom_bar(stat="count", position = "fill") +
-  scale_color_brewer(type = 'div', palette = 'BuPu') +
-  xlab('Alcohol') + 
-  ylab('') +
-  ggtitle('Distribution of quality factors by amount of alcohol') +
+  scale_fill_brewer(palette = "BuPu") +
+  xlab("Alcohol (g / dm^3)") + 
+  ylab("") +
+  ggtitle("Distribution of quality factors by amount of alcohol") +
   guides(fill=guide_legend(title="Quality"))
 ```
 
 ### Description Three
+This is a more experimental plot I have created to show how the composition of quality ratings for the different amounts of alcohol. It shows the amount of alcohol (rounded) as a factor on the x-axis and the quality level of each factor as a stacked bar.
+To do so, I have rounded the alcohol variable so that we 7 levels now. This table shows the alcohol amount in the first row and the wines with this amount in the second.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+table(round(wine$alcohol))
+````
+
+Similar to the distribution of the quality levels, there are also relatively few wines with a low and a high amount of alcohol. However, I think by showing them in this way, the plot gives a good overview.
 
 ------
+
+# Ressources <a id="ressources"></a>
+I used the following ressources to create the plots:
+
+* [http://www.uni-kiel.de/psychologie/rexrepos/index.html]
+* [http://www.cookbook-r.com/]
+* [http://t-redactyl.io/]
+* [http://rmarkdown.rstudio.com/]
+
 
 # Reflection <a id="reflection"></a>
 In the analysis of the data set I found two variables that influence the quality of wine significantly and took a closer look at two variables in the dataset, which had the highest correlation overall.
@@ -484,12 +512,3 @@ However, I was not really happy that there were no high correlations in the data
 
 For future work, it would be interesting to create a model to predict the quality of wine by the measured values. It would be really interesting to find out which values a "perfect wine" would have. If we conducted this reasearch for a wine selling company, we could even try to create such a wine and let it be graded by the experts.
 I am not sure if it is possible to create a reliable model as some of the values have a very low correlation with quality, so they cannot be used for a prediction. Furthermore, as already mentioned above, the quality scores do not give a lot of information as only 7 grades were assigned in this data set.
-
-
-# Ressources <a id="ressources"></a>
-I used the following ressources for this project:
-
-* [http://www.uni-kiel.de/psychologie/rexrepos/index.html]
-* [http://www.cookbook-r.com/]
-* [http://t-redactyl.io/]
-* [http://rmarkdown.rstudio.com/]
