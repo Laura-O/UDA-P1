@@ -315,6 +315,10 @@ ggplot(wine, aes(x = quality, y = alcohol)) +
 
 ggplot(wine, aes(x = quality_factor, y = alcohol)) +
   geom_boxplot()
+
+
+corr <- cor.test(x= wine$quality, y = wine$alcohol, method = 'pearson')
+print(corr)
 ```
 
 The first plot shows that there is a positive moderate correlation between quality and alcohol (.43).
@@ -337,6 +341,9 @@ ggplot(wine, aes(x = quality, y = density)) +
 ggplot(wine, aes(x = quality_factor, y = density)) +
   geom_boxplot() +
   coord_cartesian(ylim = c(min(wine$density), quantile(wine$density, probs = 0.99)))
+
+corr <- cor.test(x= wine$quality, y = wine$density, method = 'pearson')
+print(corr)
 ```
 
 Both plots show the negative correlation between quality and density. Similar to the previous plots, this is not very obvious for the lower quality levels. The level 5 wines even have the highest median for density.
@@ -349,6 +356,8 @@ ggplot(wine, aes(x = alcohol, y = density)) +
   coord_cartesian(xlim = c(min(wine$alcohol), quantile(wine$alcohol, probs = 0.99)),
                   ylim = c(min(wine$density), quantile(wine$density, probs = 0.99)))
 
+corr <- cor.test(x= wine$alcohol, y = wine$density, method = 'pearson')
+print(corr)
 ```
 
 The plot shows a trend that wines with a low density have more alcohol.
@@ -361,6 +370,9 @@ ggplot(wine, aes(x = residual.sugar, y = density)) +
   coord_cartesian(xlim = c(min(wine$residual.sugar), quantile(wine$residual.sugar, probs = 0.99)),
                   ylim = c(min(wine$density), quantile(wine$density, probs = 0.99))) +
   scale_x_log10()
+
+corr <- cor.test(x= wine$residual.sugar, y = wine$density, method = 'pearson')
+print(corr)
 ```
 
 The plot shows a trend that wines with a high density have more residual sugar.
@@ -402,7 +414,8 @@ ggplot(wine, aes(x = residual.sugar, y = density,
   geom_jitter(alpha = 0.5) +
   scale_color_brewer(type = 'div', palette = 'BuPu') +
   scale_x_continuous(lim = c(min(wine$residual.sugar), 25)) +
-  scale_y_continuous(lim = c(min(wine$density), 1.005))
+  scale_y_continuous(lim = c(min(wine$density), 1.005)) +
+  theme_dark()
 ```
 
 ## Density and alcohol
@@ -412,7 +425,8 @@ ggplot(wine, aes(x = density, y = alcohol,
                  color = wine$quality_factor)) +
   geom_jitter(alpha = 0.5) +
   scale_color_brewer(type = 'div', palette = 'BuPu') +
-  scale_x_continuous(lim = c(min(wine$density), 1.005))
+  scale_x_continuous(lim = c(min(wine$density), 1.005)) +
+  theme_dark()
 ```
 
 This is a plot for the two variables that correlate the most with alcohol. We can see that the points get a lighter colour the higher the density is and the lower the alcohol value.
@@ -437,12 +451,17 @@ I think it is quite interesting to factorize values in order to use them as a ca
 
 ### Plot One
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(wine, aes(x = residual.sugar, y = density,
+ggplot(wine, aes(x = residual.sugar,
+                 y = density,
                  color = factor(round(wine$alcohol)))) +
   geom_jitter(alpha = 0.5) +
-  scale_color_brewer(type = 'div', palette = 'BuPu') +
-  scale_x_continuous(lim = c(min(wine$residual.sugar), quantile(wine$residual.sugar, 0.99))) +
-  scale_y_continuous(lim = c(min(wine$density), quantile(wine$density, 0.99))) +
+  scale_color_brewer(type = 'div',
+                     palette = 'BuPu') +
+  theme_dark() +
+  scale_x_continuous(lim = c(min(wine$residual.sugar),
+                             quantile(wine$residual.sugar, 0.99))) +
+  scale_y_continuous(lim = c(min(wine$density),
+                             quantile(wine$density, 0.99))) +
   xlab('Residual Sugar (g / dm^3)') + 
   ylab('Density ((g / cm^3)') +
   ggtitle('Residual Sugar vs. Density by Alcohol') +
@@ -458,7 +477,8 @@ This scatterplot shows the distribution the variable *residual.sugar* on the x-a
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=8}
 ggplot(wine, aes(x = quality_factor, y = alcohol)) +
   geom_boxplot() +
-  coord_cartesian(ylim = c(min(wine$alcohol), quantile(wine$alcohol, 0.99))) +
+  coord_cartesian(ylim = c(min(wine$alcohol),
+                           quantile(wine$alcohol, 0.99))) +
   xlab('Quality Factor') + 
   ylab('Density (g / cm^3)') +
   ggtitle('Quality vs. Density')
@@ -479,7 +499,8 @@ ggplot(wine, aes(x = round(alcohol), fill = quality_factor)) +
   xlab("Alcohol (g / dm^3)") + 
   ylab("") +
   ggtitle("Distribution of quality factors by amount of alcohol") +
-  guides(fill=guide_legend(title="Quality"))
+  guides(fill=guide_legend(title="Quality")) +
+  theme_dark()
 ```
 
 ### Description Three
