@@ -10,7 +10,9 @@ R + RMarkdown
 Python + Jupyter Notebook
 
 ### P3: Wrangle OpenStreetMap Data
-Python + MongoDB + Jupyter Notebook
+In this project, I analyzed OpenStreetMao data of the area of Paderborn, Germany. This includes the cleanup of the data, as well as some further exploration. This project was implemented in a Jupyter Notebook with Python. The data was imported into a MongoDB instanced.
+You can find the results [here](https://github.com/Laura-O/Udacity-Data-Analyst-Nanodegree/blob/master/Project_3/Udacity%20P3%20Project.ipynb)
 
-### P4: Explore and summarize data
+
+### P4: Explore and summarize datsasa
 R + RMarkdown
