@@ -30,10 +30,10 @@ You can find the results [here](https://github.com/Laura-O/Udacity-Data-Analyst-
 ### P4: Explore and summarize data
 The goal of this project was to explore the relationship between several variables describing the quality and characteristics of white wine.
 
-This is an overview of the given dataset:
+#### This is an overview of the given dataset:
 ![](Images/p4-1.png)
 
-Here are some more plots to visualize the data:
+#### Here are some more plots to visualize the data:
 ![](Images/p4-2.png)
 ![](Images/p4-3.png)
 ![](Images/p4-4.png)
