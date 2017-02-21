@@ -1,7 +1,5 @@
 # Udacity-Data-Analyst-Nanodegree
-:bar_chart: My Udacity projects
-
-These are the projects I have made for the Udacity Data Analyst Nanodegree
+:bar_chart: These are projects I have made for the [Udacity Data Analyst Nanodegree](https://www.udacity.com/course/data-analyst-nanodegree--nd002/).
 
 ### P1: Test a Perceptual Phenomenon - Use descriptive statistics and a statistical test to analyze the Stroop effect
 This project is a descriptive analysis and test about the Stroop effect. It was implemented in RMarkdown.
