@@ -28,10 +28,6 @@ financial_features = ['salary', 'deferral_payments', 'total_payments',
                 'deferred_income', 'total_stock_value', 'expenses',
                 'exercised_stock_options', 'other', 'long_term_incentive',
                 'restricted_stock', 'director_fees']
-                      
-email_features = ['to_messages', 'shared_receipt_with_poi', 
-                  'from_messages', 'from_this_person_to_poi', 
-                  'from_poi_to_this_person']
 
 ### Load the dictionary containing the dataset
 with open("final_project_dataset.pkl", "r") as data_file:
@@ -130,7 +126,6 @@ k_features, k_scores = map(list, zip(*sorted_pairs))
 
 ## make the selected features the new features list
 my_features = ['poi'] + k_features[16:]
-print(my_features)
 
 # Provided to give you a starting point. Try a variety of classifiers.
 # from sklearn.naive_bayes import GaussianNB
@@ -194,7 +189,13 @@ from sklearn.metrics import classification_report
 # test_classifier(clf, my_dataset, features_list, folds = 1000)
 # 
 
-clf = AdaBoostClassifier(algorithm='SAMME', base_estimator=None, learning_rate=2.0, n_estimators=10, random_state=42)
+pipe = Pipeline([
+         ('min_max', MinMaxScaler()),
+         ('classify', AdaBoostClassifier(algorithm='SAMME', base_estimator=None, learning_rate=2.0, n_estimators=10, random_state=42))
+     ])
+
+clf = pipe.fit(features_train, labels_train)    
+
 test_classifier(clf, my_dataset, my_features, folds = 1000)
 
 
