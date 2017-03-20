@@ -123,6 +123,8 @@ train_test_split(features, labels, test_size=0.3, random_state=42)
 from sklearn.feature_selection import SelectKBest, f_classif
 from sklearn.model_selection import StratifiedShuffleSplit
 from pprint import pprint
+
+# The following paragraph was copied from the feedback of the first submission
 # For sklearn 0.17 or older
 # splits = StratifiedShuffleSplit(labels, n_iter = 1000, random_state=42)
 
