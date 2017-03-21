@@ -128,56 +128,60 @@ from pprint import pprint
 # For sklearn 0.17 or older
 # splits = StratifiedShuffleSplit(labels, n_iter = 1000, random_state=42)
 
-sss = StratifiedShuffleSplit(n_splits = 1000, random_state=42)
+# sss = StratifiedShuffleSplit(n_splits = 1000, random_state=42)
 
-k = 5 # Change this to the number of features to use.
+# k = 5 # Change this to the number of features to use.
+# 
+# # We will include all the features into variable best_features, then group by their
+# # occurrences.
+# features_scores = {}
+# 
+# # For sklearn 0.17 or older
+# # for i_train, i_test in splits:
+# 
+# for i_train, i_test in sss.split(features, labels):
+#     features_train, features_test = [features[i] for i in i_train], [features[i] for i in i_test]
+#     labels_train, labels_test = [labels[i] for i in i_train], [labels[i] for i in i_test]
+# 
+#     # fit selector to training set
+#     selector = SelectKBest(k = k)
+#     selector.fit(features_train, labels_train)
+# 
+#     # Get scores of each feature:
+#     sel_features = np.array(features_list[1:])[selector.get_support()]
+#     sel_list = []
+#     for i in range(len(sel_features)):
+#         sel_list.append([sel_features[i], selector.scores_[i],selector.pvalues_[i]])
+# 
+#     # Fill to feature_scores dictionary
+#     for feat, score, pvalue in sel_list:
+#         if feat not in features_scores:
+#             features_scores[feat] = {'scores': [], 'pvalues': []}
+#         features_scores[feat]['scores'].append(score)
+#         features_scores[feat]['pvalues'].append(pvalue)
+# 
+# # Average scores and pvalues of each feature
+# features_scores_l = [] # tuple of feature name, avg scores, avg pvalues
+# for feat in features_scores:
+#     features_scores_l.append((
+#         feat,
+#         np.mean(features_scores[feat]['scores']),
+#         np.mean(features_scores[feat]['pvalues'])
+#     ))
+# 
+# # Sort by scores and display
+# import operator
+# sorted_feature_scores = sorted(features_scores_l, key=operator.itemgetter(1), reverse=True)
+# sorted_feature_scores_str = ["{}, {}, {}".format(x[0], x[1], x[2]) for x in sorted_feature_scores]
+# 
+# my_features = []
+# for i in range(0,4):
+#     my_features.append(sorted_feature_scores[i][0])
+# print(my_features)
 
-# We will include all the features into variable best_features, then group by their
-# occurrences.
-features_scores = {}
 
-# For sklearn 0.17 or older
-# for i_train, i_test in splits:
-
-for i_train, i_test in sss.split(features, labels):
-    features_train, features_test = [features[i] for i in i_train], [features[i] for i in i_test]
-    labels_train, labels_test = [labels[i] for i in i_train], [labels[i] for i in i_test]
-
-    # fit selector to training set
-    selector = SelectKBest(k = k)
-    selector.fit(features_train, labels_train)
-
-    # Get scores of each feature:
-    sel_features = np.array(features_list[1:])[selector.get_support()]
-    sel_list = []
-    for i in range(len(sel_features)):
-        sel_list.append([sel_features[i], selector.scores_[i],selector.pvalues_[i]])
-
-    # Fill to feature_scores dictionary
-    for feat, score, pvalue in sel_list:
-        if feat not in features_scores:
-            features_scores[feat] = {'scores': [], 'pvalues': []}
-        features_scores[feat]['scores'].append(score)
-        features_scores[feat]['pvalues'].append(pvalue)
-
-# Average scores and pvalues of each feature
-features_scores_l = [] # tuple of feature name, avg scores, avg pvalues
-for feat in features_scores:
-    features_scores_l.append((
-        feat,
-        np.mean(features_scores[feat]['scores']),
-        np.mean(features_scores[feat]['pvalues'])
-    ))
-
-# Sort by scores and display
-import operator
-sorted_feature_scores = sorted(features_scores_l, key=operator.itemgetter(1), reverse=True)
-sorted_feature_scores_str = ["{}, {}, {}".format(x[0], x[1], x[2]) for x in sorted_feature_scores]
-
-print "feature, score, pvalue"
-pprint(sorted_feature_scores_str)
-
-
+# print "feature, score, pvalue"
+# pprint(sorted_feature_scores_str)
 ## SelectKBest
 from sklearn.feature_selection import SelectKBest, f_classif
 # k = 20
@@ -187,10 +191,11 @@ from sklearn.feature_selection import SelectKBest, f_classif
 # sorted_pairs = list(sorted(unsorted_pairs, key=lambda x: x[1]))
 # k_features, k_scores = map(list, zip(*sorted_pairs))
 
-
-
 ## make the selected features the new features list
-#my_features = ['poi'] + k_features[14:]
+#my_features = ['poi', 'exercised_stock_options', 'long_term_incentive',
+#                'salary', 'restricted_stock_deferred', 'restricted_stock']
+
+my_features = features_list
 
 # Provided to give you a starting point. Try a variety of classifiers.
 # from sklearn.naive_bayes import GaussianNB
@@ -207,7 +212,7 @@ from sklearn.feature_selection import SelectKBest, f_classif
 # clf_rf = RandomForestClassifier()
 # print("Random Forest: ")
 # test_classifier(clf_rf, my_dataset, my_features, folds = 1000)
-
+# 
 from sklearn.ensemble import AdaBoostClassifier
 # clf_ada = AdaBoostClassifier()
 # print("AdaBoost: ")
@@ -222,11 +227,11 @@ from sklearn.ensemble import AdaBoostClassifier
 ### http://scikit-learn.org/stable/modules/generated/sklearn.cross_validation.StratifiedShuffleSplit.html
 
 # Example starting point. Try investigating other evaluation techniques!
-# from sklearn.pipeline import Pipeline
-# from sklearn.feature_selection import SelectPercentile, SelectKBest, f_classif, chi2
-# from sklearn.model_selection import StratifiedShuffleSplit
-# from sklearn.model_selection import GridSearchCV
-# from sklearn.metrics import classification_report
+from sklearn.pipeline import Pipeline
+from sklearn.feature_selection import SelectPercentile, SelectKBest, f_classif, chi2
+from sklearn.model_selection import StratifiedShuffleSplit
+from sklearn.model_selection import GridSearchCV
+from sklearn.metrics import classification_report
 # 
 # pipe = Pipeline([
 #         ('min_max', MinMaxScaler()),
@@ -264,7 +269,7 @@ pipe = Pipeline([
 
 clf = pipe.fit(features_train, labels_train)    
 
-#test_classifier(clf, my_dataset, my_features, folds = 1000)
+test_classifier(clf, my_dataset, my_features, folds = 1000)
 
 
 ### Task 6: Dump your classifier, dataset, and features_list so anyone can
