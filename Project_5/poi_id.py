@@ -97,7 +97,7 @@ enron_df["to_poi_ratio"] = enron_df.apply(lambda row: to_poi_ratio(row), axis=1)
 enron_df["from_poi_ratio"] = enron_df.apply(lambda row: from_poi_ratio(row), axis=1)
 
 features_list.extend(["poi_email_ratio", "to_poi_ratio", "from_poi_ratio"])
-print(features_list)
+# print(features_list)
 
 my_dataset = enron_df.T.to_dict()
 
@@ -118,7 +118,6 @@ from sklearn.cross_validation import train_test_split
 
 features_train, features_test, labels_train, labels_test = \
 train_test_split(features, labels, test_size=0.3, random_state=42)
-
 
 from sklearn.feature_selection import SelectKBest, f_classif
 from sklearn.model_selection import StratifiedShuffleSplit
@@ -226,13 +225,13 @@ from sklearn.ensemble import AdaBoostClassifier
 ### stratified shuffle split cross validation. For more info: 
 ### http://scikit-learn.org/stable/modules/generated/sklearn.cross_validation.StratifiedShuffleSplit.html
 
-# Example starting point. Try investigating other evaluation techniques!
+#Example starting point. Try investigating other evaluation techniques!
 from sklearn.pipeline import Pipeline
 from sklearn.feature_selection import SelectPercentile, SelectKBest, f_classif, chi2
 from sklearn.model_selection import StratifiedShuffleSplit
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import classification_report
-# 
+
 # pipe = Pipeline([
 #         ('min_max', MinMaxScaler()),
 #         ('k_best', SelectKBest()),
@@ -241,7 +240,7 @@ from sklearn.metrics import classification_report
 #     
 # param_grid = ([
 #         {
-#             'k_best__k': [5,6,7,8,9,10,11,12,13,14,15],
+#             'k_best__k': [5,6,7,8,9,10,11,12,13,14],
 #             'classify__n_estimators':[10, 15, 20],
 #             'classify__algorithm': ['SAMME', 'SAMME.R'],
 #             'classify__learning_rate': [1.0, 1.5, 2.0, 2.5],
@@ -257,9 +256,8 @@ from sklearn.metrics import classification_report
 # print "(clf.best_params_): ", (clf.best_params_)
 # print "(clf.scorer_): ", (clf.scorer_)
 # 
+# 
 # clf = clf.best_estimator_
-# test_classifier(clf, my_dataset, features_list, folds = 1000)
-
 
 pipe = Pipeline([
          ('min_max', MinMaxScaler()),
@@ -267,9 +265,13 @@ pipe = Pipeline([
          ('classify', AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None, learning_rate=1.0, n_estimators=15, random_state=None))
      ])
 
-clf = pipe.fit(features_train, labels_train)    
+clf = pipe.fit(features_train, labels_train)
 
-test_classifier(clf, my_dataset, my_features, folds = 1000)
+finalFeatureIndices = clf.named_steps['k_best'].get_support(indices=True)
+finalFeatureList = [my_features[i+1] for i in finalFeatureIndices]
+print(finalFeatureList)
+
+#test_classifier(clf, my_dataset, my_features, folds = 1000)
 
 
 ### Task 6: Dump your classifier, dataset, and features_list so anyone can

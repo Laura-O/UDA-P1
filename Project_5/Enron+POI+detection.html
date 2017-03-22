@@ -11787,7 +11787,7 @@ The Enron dataset contains about 50.000 emails written by 158 employes of the En
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1">### Task 1: Select what features you&#39;ll use.</span>
@@ -11828,7 +11828,7 @@ The Enron dataset contains about 50.000 emails written by 158 employes of the En
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;final_project_dataset.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">data_file</span><span class="p">:</span>
@@ -11894,7 +11894,7 @@ memory usage: 25.1+ KB
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">enron_df</span> <span class="o">=</span> <span class="n">enron_df</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;NaN&#39;</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
@@ -11931,7 +11931,7 @@ memory usage: 25.1+ KB
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">enron_df</span><span class="p">[</span><span class="n">enron_df</span><span class="p">[</span><span class="s1">&#39;bonus&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">bonus</span><span class="p">,</span> <span class="n">enron_df</span><span class="p">[</span><span class="n">enron_df</span><span class="p">[</span><span class="s1">&#39;bonus&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">total_payments</span><span class="p">)</span>
@@ -12081,7 +12081,7 @@ Ge6S1CDDXZIaZLhLUoP+H84HumZyCS5bAAAAAElFTkSuQmCC
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">enron_df</span> <span class="o">=</span> <span class="n">enron_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;LOCKHART EUGENE E&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
@@ -12113,7 +12113,7 @@ Ge6S1CDDXZIaZLhLUoP+H84HumZyCS5bAAAAAElFTkSuQmCC
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">enron_df</span><span class="p">[</span><span class="n">enron_df</span><span class="p">[</span><span class="s1">&#39;bonus&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">bonus</span><span class="p">,</span> <span class="n">enron_df</span><span class="p">[</span><span class="n">enron_df</span><span class="p">[</span><span class="s1">&#39;bonus&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">total_payments</span><span class="p">)</span>
@@ -12249,7 +12249,7 @@ QUAHgEAQ0AEgEAR0AAgEAR0AAvH/oWs6UtYLA44AAAAASUVORK5CYII=
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="s2">&quot;Maxmium bonus: &quot;</span><span class="p">,</span> <span class="n">enron_df</span><span class="p">[</span><span class="s1">&#39;bonus&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">idxmax</span><span class="p">())</span>
@@ -12288,7 +12288,7 @@ QUAHgEAQ0AEgEAR0AAgEAR0AAvH/oWs6UtYLA44AAAAASUVORK5CYII=
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">enron_df</span><span class="p">[</span><span class="n">financial_features</span><span class="p">]</span> <span class="o">=</span> <span class="n">enron_df</span><span class="p">[</span><span class="n">financial_features</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -12302,7 +12302,7 @@ QUAHgEAQ0AEgEAR0AAgEAR0AAvH/oWs6UtYLA44AAAAASUVORK5CYII=
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">financial_features</span><span class="p">:</span>
@@ -12333,7 +12333,7 @@ Unfortunately, it will later be shown that the new features do not help to impro
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">from_poi_ratio</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
@@ -12396,7 +12396,7 @@ Unfortunately, it will later be shown that the new features do not help to impro
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">my_dataset</span> <span class="o">=</span> <span class="n">enron_df</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
@@ -12500,7 +12500,7 @@ Unfortunately, it will later be shown that the new features do not help to impro
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Selection-of-features">Selection of features<a class="anchor-link" href="#Selection-of-features">&#182;</a></h1><p>I will now select the features which we want to use in the following sections. I decided to use SelectKBest, which calculates a score for each feature. I decided to use the default setting (f_classif), which is an classification based on the ANOVA F-value.
-I finally used the top 5 features (<em>k = 5</em>), which was the result of running GridSearchCV (see paragraph below).</p>
+I finally used the top 5 features (<em>k = 5</em>), which was the result of running GridSearchCV (see paragraph below). These features are: <em>['salary', 'bonus', 'expenses', 'other', 'shared_receipt_with_poi']</em></p>
 <p>I am also using feature scaling here. Feature scaling is important for algorithms which do not make an assumption about how data is distributed. The default settings of MinMaxScaler scale all features between 0 and 1, so they have an equal weight.</p>
 <p>For a better overview, I will also plot the results.</p>
 
@@ -12509,7 +12509,7 @@ I finally used the top 5 features (<em>k = 5</em>), which was the result of runn
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1">### Task 4: Try a varity of classifiers</span>
@@ -12988,15 +12988,14 @@ As a first step, I will use MinMaxScaler to scale the selected features to a val
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Validation means to check if the model has a consistent performance on unknown data. A common mistake is overfitting, which means that a model is trained to fit a too small training set and/or it is vaidated with the same set. An overfitted model has a great performance on the training data, but a bad performance on new data.
 To avoid this a seperate training and testing should be kept. Splitting test data into these two sets can be done with the <em>train_test_split</em> function in scikit-learn.</p>
-<p>An important issue is how the data is split. In some cases it might happen that the training set is biased. In this project it could happen that no POIs are in the training set, so the validation of the testing set would not be as good as expected.</p>
-<p>With only 146 entries our data set is rather small. When using a test size of 30% (the default value for <em>train_test_split</em>), there could only be non-POIs in our test set. To avoid this, I use a cross-validator called <em>StratifiedShuffleSplit</em>, which can be used to create randomized folds.</p>
+<p>An important issue is how the data is split. In some cases it might happen that the training set is biased. In this project it could happen that no POIs are in the training set, so the validation of the testing set would not be as good as expected. To avoid this, I use a cross-validator called StratifiedShuffleSplit, which can be used to create randomized folds. The percentage of samples for each class is maintained.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
@@ -13014,7 +13013,7 @@ To avoid this a seperate training and testing should be kept. Splitting test dat
     
 <span class="n">param_grid</span> <span class="o">=</span> <span class="p">([</span>
         <span class="p">{</span>
-            <span class="s1">&#39;k_best__k&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mi">15</span><span class="p">],</span>
+            <span class="s1">&#39;k_best__k&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">14</span><span class="p">],</span>
             <span class="s1">&#39;classify__n_estimators&#39;</span><span class="p">:[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">],</span>
             <span class="s1">&#39;classify__algorithm&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;SAMME&#39;</span><span class="p">,</span> <span class="s1">&#39;SAMME.R&#39;</span><span class="p">],</span>
             <span class="s1">&#39;classify__learning_rate&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">],</span>
@@ -13038,6 +13037,74 @@ To avoid this a seperate training and testing should be kept. Splitting test dat
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>(clf.best_estimator_.steps):  [(&#39;min_max&#39;, MinMaxScaler(copy=True, feature_range=(0, 1))), (&#39;k_best&#39;, SelectKBest(k=5, score_func=&lt;function f_classif at 0x1102fea28&gt;)), (&#39;classify&#39;, AdaBoostClassifier(algorithm=&#39;SAMME.R&#39;, base_estimator=None,
+          learning_rate=1.5, n_estimators=20, random_state=None))]
+(clf.best_score_):  0.824893295111
+(clf.best_params_):  {&#39;classify__learning_rate&#39;: 1.5, &#39;k_best__k&#39;: 5, &#39;classify__n_estimators&#39;: 20, &#39;classify__algorithm&#39;: &#39;SAMME.R&#39;}
+(clf.scorer_):  make_scorer(f1_score, average=weighted, pos_label=None)
+Pipeline(steps=[(&#39;min_max&#39;, MinMaxScaler(copy=True, feature_range=(0, 1))), (&#39;k_best&#39;, SelectKBest(k=5, score_func=&lt;function f_classif at 0x1102fea28&gt;)), (&#39;classify&#39;, AdaBoostClassifier(algorithm=&#39;SAMME.R&#39;, base_estimator=None,
+          learning_rate=1.5, n_estimators=20, random_state=None))])
+	Accuracy: 0.82673	Precision: 0.32372	Recall: 0.27500	F1: 0.29738	F2: 0.28353
+	Total predictions: 15000	True positives:  550	False positives: 1149	False negatives: 1450	True negatives: 11851
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">chosen_features</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">named_steps</span><span class="p">[</span><span class="s1">&#39;k_best&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get_support</span><span class="p">(</span><span class="n">indices</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">finalFeatureList</span> <span class="o">=</span> <span class="p">[</span><span class="n">features_list</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">chosen_features</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">finalFeatureList</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[&#39;salary&#39;, &#39;bonus&#39;, &#39;expenses&#39;, &#39;other&#39;, &#39;shared_receipt_with_poi&#39;]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Details-about-the-validation">Details about the validation<a class="anchor-link" href="#Details-about-the-validation">&#182;</a></h2><p>In the code above I chose several parameters to tune:</p>
+<ul>
+<li>SelectKBest: k - I chose a range from 5 to 14. These represent all features with a score above 2 from the above section.</li>
+<li>AdaBoostClassifier: n_estimators - This parameter defines the maximum number of estimators before AdaBoost will stop. I chose 10, 15, 20 because I noticed that precision and recall constantly drop with a higher number.</li>
+<li>AdaBoostClassifier: algorithm - I chose to use both available options here. SAMME.R is described to converge faster and achieving a lower test error with fewer boosting iterations.</li>
+<li>AdaBoostClassifier: learning_rate - The learning rate defines how the misclassified matches are weighted in the next iteration. A lower learning rate requires more iterations. Playing around with this value I found that values between 1.0 an 2.5 give the best results. Setting a higher learning rate resulted in a very low precision score.</li>
+</ul>
+
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
@@ -13096,6 +13163,7 @@ To avoid this a seperate training and testing should be kept. Splitting test dat
 <li><a href="https://www.datacamp.com/">DataCamp</a></li>
 <li><a href="http://www.kaggle.com">kaggle</a></li>
 <li><a href="https://tryolabs.com/blog/2013/03/25/why-accuracy-alone-bad-measure-classification-tasks-and-what-we-can-do-about-it/">Accuracy paradox</a></li>
+<li><a href="http://opisthokonta.net/?p=809">Predicting football results with Adaptive Boosting</a></li>
 </ol>
 <p>I hereby confirm that this submission is my work. I have cited above the origins of any parts of the submission that were taken from Websites, books, forums, blog posts, github repositories, etc.</p>
 
