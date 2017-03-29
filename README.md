@@ -39,5 +39,6 @@ The project was implemented in RMarkdown. You can download the results [here](ht
 
 ### P4: Identifying Fraud from Enron Emails 
 The goal of the project is to use a machine learning algorithm to predict the person of interest (POI) of the fraud.
-The results were described in a Jupyter Notebook which you can find [here](https://github.com/Laura-O/Udacity-Data-Analyst-Nanodegree/blob/master/Project_5/Enron POI detection.ipynb).
+The results were described in a Jupyter Notebook which you can find [here](https://github.com/Laura-O/Udacity-Data-Analyst-Nanodegree/blob/master/Project_5/Enron_POI_detection.ipynb).
+
 Most important libraries used in this project: scikit-learn, pandas, numpy
