@@ -4,7 +4,7 @@
 ### P1: Test a Perceptual Phenomenon - Use descriptive statistics and a statistical test to analyze the Stroop effect
 This project is a descriptive analysis and test of the Stroop effect. It was implemented in RMarkdown.
 
-### P2: Investigate a dataset: titanic
+### P2: Investigate a dataset: Titanic
 For this project the Titanic dataset provided by [kaggle.com](http://www.kaggle.com) was analyzed.
 The main goal was to find factors which made people survive the accident.
 
@@ -37,7 +37,7 @@ The goal of this project was to explore the relationship between several variabl
 
 The project was implemented in RMarkdown. You can download the results [here](https://github.com/Laura-O/Udacity-Data-Analyst-Nanodegree/blob/master/Project_4/white_wine.html) (click on "Download", save the file locally and open it in a web browser).
 
-
-
-
-
+### P4: Identifying Fraud from Enron Emails 
+The goal of the project is to use a machine learning algorithm to predict the person of interest (POI) of the fraud.
+The results were described in a Jupyter Notebook which you can find [here](https://github.com/Laura-O/Udacity-Data-Analyst-Nanodegree/blob/master/Project_5/Enron POI detection.ipynb).
+Most important libraries used in this project: scikit-learn, pandas, numpy
