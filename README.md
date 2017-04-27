@@ -37,7 +37,7 @@ The goal of this project was to explore the relationship between several variabl
 
 The project was implemented in RMarkdown. You can download the results [here](https://github.com/Laura-O/Udacity-Data-Analyst-Nanodegree/blob/master/Project_4/white_wine.html) (click on "Download", save the file locally and open it in a web browser).
 
-### P4: Identifying Fraud from Enron Emails 
+### P5: Identifying Fraud from Enron Emails 
 The goal of the project is to use a machine learning algorithm to predict the person of interest (POI) of the fraud.
 The results were described in a Jupyter Notebook which you can find [here](https://github.com/Laura-O/Udacity-Data-Analyst-Nanodegree/blob/master/Project_5/Enron_POI_detection.ipynb).
 
