@@ -14,7 +14,7 @@
                 console.error("Error getting or parsing the data.");
                 throw error;
             }
-            var chart = bubbleChart().width(900).height(960);
+            var chart = bubbleChart().width(800).height(800);
             d3.select("#chart").data(data).call(chart);
         });
     </script>

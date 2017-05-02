@@ -1,6 +1,6 @@
 function bubbleChart() {
-    var width = 960,
-        height = 960,
+    var width = 800,
+        height = 800,
         columnForColors = "countryId",
         ncomps = "value";
 
@@ -22,8 +22,8 @@ function bubbleChart() {
 
         // Create new simulation with forces
         var simulation = d3.forceSimulation(data)
-            .force("x", d3.forceX(480).strength(0.05))
-            .force("y", d3.forceY(480).strength(0.05))
+            .force("x", d3.forceX(400).strength(0.05))
+            .force("y", d3.forceY(400).strength(0.05))
             .force("charge", d3.forceManyBody().strength(10))
             .force("collide",
                 d3.forceCollide()
