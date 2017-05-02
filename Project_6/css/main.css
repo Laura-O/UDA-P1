@@ -1,11 +1,16 @@
 .tooltip {
-  background-color: #626D71;
-  position: absolute;
-  visibility: hidden;
-  color: black;
-  padding: 2px;
-  border-radius: 4px;
-  text-align: center;
-  font-family: monospace;
-  width: 180px;
+    background-color: #626D71;
+    position: absolute;
+    visibility: hidden;
+    color: white;
+    padding: 2px;
+    border-radius: 2px;
+    text-align: center;
+    font-family: monospace;
+    width: 190px;
+}
+
+svg {
+    display: block;
+    margin: auto;
 }
