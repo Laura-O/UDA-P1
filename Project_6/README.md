@@ -33,7 +33,7 @@ Another point was that the bubbles are difficult to differentiate and too small.
 
 This is partly solved by the improvement mentioned in the first step. The size was still a problem though. I decided to upscale the complete visualization and set the range of the bubbles to 10-50 instead of 2-20.
 
-#### Static
+#### Static application
 This feedback was a very basic one: the reviewer said that he does not see any advantage in using a web application instead of a simple drawing for this kind of visualization.
 
 This feedback resulted in two changes:
