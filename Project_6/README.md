@@ -11,8 +11,17 @@ This visualization is based on the database export of the [World Cube Associatio
 * When hovering over a bubble, a small tooltip with the name, the nationality and the number of competitions of the competitor is shown.
 * In order to allow users to interact with the chart, I added a drag and drop function, which makes the bubbles movable. There is also a collision prevention, so the other bubbles are pushed aside when one of them is moved. This is not an essential function to understand the data, but it invites to play around with it.
 
+### Reasons why this design was chosen
+I chose a floating bubble chart for this visualization because I think it's the most beautiful and best fitting way to present this kind of information.
+
+Many bubble charts are be used to visualize two dimensions: a categorical value (represented as the bubble) and a numerical (represented as the size of the bubble). More dimensions can be added by coloring the bubbles and by arranging them on a x- and y-axis or on a map. For this visualization there are three dimensions I want to show: the competitor (the bubble), the number of competitions the competitor has attended (the size of the bubble) and the country of the competitor (the color of the bubble).
+
+Bubble charts are a nice way to discover data. They allow a quick comparison of values and it's easy to spot the largest and smallest bubbles. However, if values have a huge range, it might be difficult to interpret sizes. In this dataset the range is quite small. Furthermore, it's not essential to interpret the exact number a bubble represents.
+
 ## Feedback
 This section represents a collection of feedback I received for the initial version of the chart and subsequent revisions. As I did not consequently push all changes to GitHub, I have only included this version here.
+
+The feedback comes from 3 person: 2 are familiar with speedcubing, the other one is not.
 
 #### Boring design
 The first feedback for the initial design was that the black/white design was rather boring and not very appealing.
@@ -40,4 +49,5 @@ Afterwards, I decided to also add a [drag and drop function](https://github.com/
 * [d3-force](https://github.com/d3/d3-force)
 * [D3.js version 4](https://anthonyskelton.com/2016/d3-js-version-4/)
 * [Bubble charts in D3](https://jrue.github.io/coding/2014/exercises/basicbubblepackchart/)
+* [How To Design Bubble Charts](https://visage.co/data-visualization-101-bubble-charts/)
 * [WCA database export](https://www.worldcubeassociation.org/results/misc/export.html)

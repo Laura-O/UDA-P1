@@ -17,18 +17,18 @@ function bubbleChart() {
 
         var tooltip = selection
             .append("div")
-            .attr("class", "tooltip")
+            .attr("class", "circletip")
             .text("");
 
         // Create new simulation with forces
         var simulation = d3.forceSimulation(data)
-            .force("x", d3.forceX(400).strength(0.05))
-            .force("y", d3.forceY(400).strength(0.05))
+            .force("x", d3.forceX(400).strength(0.10))
+            .force("y", d3.forceY(400).strength(0.10))
             .force("charge", d3.forceManyBody().strength(10))
             .force("collide",
                 d3.forceCollide()
                 .radius(function(d) {
-                    return d.r + 20;
+                    return d.r + 15;
                 })
                 .iterations(2));
 
@@ -105,6 +105,8 @@ function bubbleChart() {
             });
     }
 
+    // Getters/setters for width, height, color and number of competitions
+    // Inspired by: https://bost.ocks.org/mike/chart/
     chart.width = function(value) {
         if (!arguments.length) {
             return width;
