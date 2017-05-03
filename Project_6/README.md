@@ -4,7 +4,7 @@
 This visualization is based on the database export of the [World Cube Association](http://www.worldcubeassociation.org)(WCA). The WCA governs competitions for twisted puzzles, with the widely know "Rubik's Cube" as most popular event. In this project, I will create a visualization for the number of competitions individual competitors have attended. I recently attended my 100th competition, which makes me the 25th person ever to reach this benchmark.
 
 ## Design
-[Screenshot](images/final_visualization.png)
+![Screenshot](images/final_visualization.png)
 
 * The visualization shows each competitor as a bubble in a bubble chart. The size represents the number of competitions. I decided to use a linear scale to map the variable to the radius of the bubble.
 * Furthermore, the bubbles are colored according to the nationality of the competitor using an ordinal scale and the ['schemeCategory20'](https://github.com/d3/d3-scale) color scheme.
