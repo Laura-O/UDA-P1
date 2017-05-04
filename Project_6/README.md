@@ -31,7 +31,7 @@ Instead of just adding some colors to the css file, I decided to use additional 
 #### Bubble are difficult to differentiate and too small
 Another point was that the bubbles are difficult to differentiate and too small. Especially on a small screen the bubbles are so cluttered that it's nearly impossible to find the right spot to let the tooltip appear.
 
-This is partly solved by the improvement mentioned in the first step. The size was still a problem though. I decided to upscale the complete visualization and set the range of the bubbles to 10-50 instead of 2-20.
+This is partly solved by the improvement mentioned in the first step. The size was still a problem though. I decided to upscale the complete visualization and set the range of the bubbles to 10-45 instead of 2-20.
 
 #### Static application
 This feedback was a very basic one: the reviewer said that he does not see any advantage in using a web application instead of a simple drawing for this kind of visualization.

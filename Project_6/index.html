@@ -1,41 +1,79 @@
 <!DOCTYPE html>
 
 <head>
-    <title>Data Visualization | WCA competitions</title>
-    
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/main.css">
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Arvo">
+  <title>Data Visualization | WCA competitions</title>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.6.0/d3.min.js"></script>
-    <script src="js/bubbleChart.js"></script>
-    <script>
-        d3.csv("data/numComps.csv", function(error, data) {
-            if (error) {
-                console.error("Error getting or parsing the data.");
-                throw error;
-            }
-            var chart = bubbleChart();
-            //.width(800).height(800);
-            d3.select("#chart").data(data).call(chart);
-        });
-    </script>
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Arvo">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.6.0/d3.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.24.0/d3-legend.min.js"></script>
+  <script src="js/bubbleChart.js"></script>
+  <script>
+    d3.csv("data/numComps.csv", function(error, data) {
+      if (error) {
+        console.error("Error getting or parsing the data.");
+        throw error;
+      }
+      var chart = bubbleChart();
+      //.width(800).height(800);
+      d3.select("#chart").data(data).call(chart);
+    });
+  </script>
 </head>
 
+<h3>Who has competed in the most speedcubing competitions?</h3>
+
 <div class="container">
-    <div class="row">
-    <div class="col-md-7">
+  <div class="row">
+    <div class="col-md-4">
       <div class="description">
-          <h3>Who has competed in the most speedcubing competitions?</h3>
-        <p>This visualization shows the competitors who have attended the most
-          <href="http://www.worldcubeassociation.org">speedcubing competitions</a>
-          since 1982.</p>
-        <p>Hover over the bubbles to see more details about the competitors!</p>
+        <p>Since 1982, more than 3700
+          <href="http://www.worldcubeassociation.org">speedcubing competitions</a> took place in more than 80 countries. These are the Top 5 countries:</p>
+            <table class="table table-condensed" id="table-competitions">
+              <thead>
+                <tr>
+                  <th>Country</th>
+                  <th>Competitions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>USA</td>
+                  <td>724</td>
+                </tr>
+                <tr>
+                  <td>China</td>
+                  <td>326</td>
+                </tr>
+                <tr>
+                  <td>India</td>
+                  <td>178</td>
+                </tr>
+                <tr>
+                  <td>Poland</td>
+                  <td>144</td>
+                </tr>
+                <tr>
+                  <td>Japan</td>
+                  <td>142</td>
+                </tr>
+              </tbody>
+            </table>
       </div>
     </div>
-    <div class="col-md-offset-1 col-md-4">
+    <div class="col-md-4">
       <div class="description">
-        <h3>And what is speedcubing?</h3>
+        <p>This visualization shows the competitor have have attented more than 50 competitions.</p>
+        <p>You can find many competitors from the USA in this bubble chart, but the Top 5
+        competitors are from France, Germany, China and the Netherlands.</p>
+        <p>Hover over the bubbles to see more information!</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="description">
+        <p>But wait, what is speedcubing?</p>
         <p><i>Speedcubing (also known as speedsolving) is the activity of solving a variety of
           twisty puzzles, the most famous being the Rubik's Cube, as quickly as possible.</i></p>
         <p>Source: <a href="https://en.wikipedia.org/wiki/Speedcubing">Wikipedia</a></a>
@@ -46,12 +84,11 @@
 
 <hr />
 
-<div class ="container">
+<div class="container">
   <div class="bubbleChart" id="chart"><svg></svg></div>
-
 </div>
 
 <footer>
-    <p>Data: <a href="http://www.worldcubeassociation.org">
-      worldcubeassociation.org</a></p>
+  <p>Data: <a href="http://www.worldcubeassociation.org">
+      worldcubeassociation.org, Mai 4th, 2017</a></p>
 </footer>
