@@ -13,8 +13,6 @@ function bubbleChart() {
     svg.attr("width", width).attr("height", height);
 
     // Set color by country
-    //var colour = d3.scaleOrdinal(d3.schemeCategory20.concat(d3.d3.schemeCategory20c))));
-    //var colour_arrays = 
     var schemes = d3.schemeCategory20.concat(d3.schemeCategory20b);
     var colour = d3.scaleOrdinal(schemes);
 
