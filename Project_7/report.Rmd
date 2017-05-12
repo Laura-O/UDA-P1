@@ -56,7 +56,7 @@ The number of user-ids alone does not give us any valuable information. We are i
 * Click-through-probability on "Start free trial":	0.08
 * Probability of enrolling, given click:	0.20625
 * Probability of payment, given enroll:	0.53
-* Probability of payment, given click	0.1093125
+* Probability of payment, given click:	0.1093125
 
 In the experiment, we predict we need 5000 cookies oer day in each group. With the given numbers above and a scale factor of ``r 5000/40000``, this results in ``r 3200*0.125`` users who click the "Start free trial"-button and ``r 660*0.125`` enrollments.
 
@@ -103,7 +103,7 @@ The SD for net conversion is `r clicks_sd`.
 As the project should have appropriate numbersfor both metrics, we have to use the higher number of pageviews. So we have to get 685.275 pageviews.
 
 #### Duration vs. Exposure
-According to the numbers given above, there are 40000 unique visitors per day. To have 6825275 pageviews, the experiment will have to run for ``r 6825275/40000`` days.
+According to the numbers given above, there are 40000 unique visitors per day. To have 6825275 pageviews, the experiment will have to run for ``r round(6825275/40000,0)`` days.
 The free-trial period is 14 days, so the total amount of time this experiment will take is 32 days. I think this is a reasonable timespan.
 
 I do not think that the experiment is risky in any way. The question is not ethically problematic and is not sensitive. It might be possible to draw some conclusions from the information. For example, if users are able to spend 30 hours on the course, it's unlikely that they have a full-time job. 
@@ -130,7 +130,7 @@ observed_cookies <- round(cViews/(cViews+eViews),4)
 
 * Lower bound: `r round(lowerBound_cookies ,4)`
 * Upper bound: `r round(upperBound_cookies ,4)`
-* Confidence interval: `r 0.5- me_cookies`, `r 0.5 + me_cookies`
+* Confidence interval: [`r round(0.5- me_cookies,4)`, `r round(0.5 + me_cookies,4)`]
 * Observed probability: `r observed_cookies`
 
 #### Number of clicks
@@ -161,7 +161,7 @@ observed_clickthrough <- eClicks/eViews
 
 * Lower bound: `r round(lowerBound_clickthrough,4)`
 * Upper bound: `r round(upperBound_clickthrough,4)`
-* Confidence interval: `r round(click_throughCTRL - me_clickthrough,4)`, `r round(click_throughCTRL + me_clickthrough,4)`
+* Confidence interval: [`r round(click_throughCTRL - me_clickthrough,4)`, `r round(click_throughCTRL + me_clickthrough,4)`]
 * Observed probability: `r round(observed_clickthrough,4)`
 
 All observed values fall in the expected range, so all metrics pass the sanity check.
@@ -189,7 +189,7 @@ gc_me <- gc_se *1.96
 gc_diff <- (NeEnrollment/NeClicks) - (NcEnrollment/NcClicks)
 ```
 
-*  Difference: `r gc_diff`
+*  Difference: `r round(gc_diff,4)`
 * 95% confidence interval: [`r round(gc_diff - gc_me,4)`, `r round(gc_diff + gc_me,4)`]
 
 The difference is statistically significant as the confidence interval does not include Zero. It is also practically significant as it does not include dmin.
@@ -202,7 +202,7 @@ nc_me <- nc_se *1.96
 nc_diff <- (NePayments/NeClicks) - (NcPayments/NcClicks)
 ```
 
-*  Difference: `r nc_diff`
+*  Difference: `r round(nc_diff,4)`
 * 95% confidence interval: [`r round(nc_diff - nc_me,4)`, `r round(nc_diff + nc_me,4)`]
 
 The confidence interval includes Zero, so it's not statistically significant. It includes the lower boundary for practical significance, so it's also not practically significant.
