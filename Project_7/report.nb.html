@@ -174,26 +174,136 @@ $(document).ready(function () {
 <!-- rnb-text-begin -->
 <div id="experiment-design" class="section level2">
 <h2>Experiment Design</h2>
+<p>There are two options a user can choose for Udacity courses. The first is a “free trial”, the second is “access course materials”. When they click on the first option, they will be asked to enter their payment data and enrolled in a 14 days trial period. After that, they will be charged until they cancel their subscription. For the second option, they are able to view all course material for free, but they will not receive coaching and cannot submit their final projects (and get a course certificate).</p>
+<p>Udacity tested how a change of the free trial period would change the users behavior. After clicking on the “free trial”-button, the users were asked how much time they would be able to spent on the course. If that was 5 hours or more, they were shown they were forwarded to the page where they have to enter their payment data. If they entered less than 5 hours, a warning was displayed that the course usually requires a commitment of more than 5 hours and accessing the free course material might be the better option. Still, they had the option to enroll in the free trial instead.</p>
+<p>The hypothesis was that this would reduce the number of frustrated students who left the free trial because they realized they didn’t have enough time, but the number of students who would continue past the free trial would not be reduced.</p>
+<p>As a unit of diversion cookies were used. After students enrolled, they can be identified by their user-id. It’s not possible to enroll in the same fre trial more than once.</p>
 <div id="metric-choice" class="section level3">
 <h3>Metric Choice</h3>
-<p>Quiz: List which metrics you will use as invariant metrics and evaluation metrics here. (These should be the same metrics you chose in the “Choosing Invariant Metrics” and “Choosing Evaluation Metrics” quizzes.)</p>
-<p>For each metric, explain both why you did or did not use it as an invariant metric and why you did or did not use it as an evaluation metric. Also, state what results you will look for in your evaluation metrics in order to launch the experiment.</p>
+<p>I will first list the metrics with an explanation for each. Then I will present my choices for invariant and evaluation metrics.</p>
+<ul>
+<li>Number of cookies: That is, number of unique cookies to view the course overview page</li>
+<li>Number of user-ids: That is, number of users who enroll in the free trial.</li>
+<li>Number of clicks: That is, number of unique cookies to click the “Start free trial” button (which happens before the free trial screener is trigger)</li>
+<li>Click-through-probability: That is, number of unique cookies to click the “Start free trial” button divided by number of unique cookies to view the course overview page</li>
+<li>Gross conversion: That is, number of user-ids to complete checkout and enroll in the free trial divided by number of unique cookies to click the “Start free trial” button.</li>
+<li>Retention: That is, number of user-ids to remain enrolled past the 14-day boundary (and thus make at least one payment) divided by number of user-ids to complete checkout.</li>
+<li>Net conversion: That is, number of user-ids to remain enrolled past the 14-day boundary (and thus make at least one payment) divided by the number of unique cookies to click the “Start free trial” button.</li>
+</ul>
+<div id="invariant-metrics" class="section level4">
+<h4>Invariant metrics</h4>
+<p>Invariant metrics shouldn’t change across the experimental and the control group. They can be used to check the integrity of the measurement after the experiment.</p>
+<p>The main goal of this experiment is to see how users react to the new query message displayed after they want to join for the trial. Therefore, the following variables do not change:</p>
+<ul>
+<li>Number of cookies: The number represents the unique visitors of the website. The aim is to split them between the experimental and the control group.</li>
+<li>Number of clicks: The experiment is focusing on the part after the “Start free trial” button has been pressed. Therefore, the number of clicks should be the same across the experimental and the control group.</li>
+<li>Click-through-probability: This probability is the number of clicks divided by the number of cookies. As both of these variables are invariant, the click-through-probability is invariant as well.</li>
+</ul>
+</div>
+<div id="evaluation-metrics" class="section level4">
+<h4>Evaluation metrics</h4>
+<p>Evaluation metrics are expected to show the changes across the experimental and the control group. For this experiment we have the following evaluation metrics:</p>
+<ul>
+<li>Gross conversion: The hypothesis is that the gross conversion for the experimental group is lower than the gross conversion for the control group.</li>
+<li>Net conversion: The net conversion is the evaluation metric representing the number of students who keep subscribed after the free trial period. The hypothesis is that it doesn’t change significantly for the experimental group.</li>
+</ul>
+</div>
+<div id="other" class="section level4">
+<h4>Other</h4>
+<ul>
+<li>Number of user-ids</li>
+<li>Retention</li>
+</ul>
+<p>The number of user-ids alone does not give us any valuable information. We are interested in the number of people who actually enroll.</p>
+</div>
 </div>
 <div id="measuring-standard-deviation" class="section level3">
 <h3>Measuring Standard Deviation</h3>
-<p>Quiz: List the standard deviation of each of your evaluation metrics. (These should be the answers from the “Calculating standard deviation” quiz.)</p>
-<p>For each of your evaluation metrics, indicate whether you think the analytic estimate would be comparable to the the empirical variability, or whether you expect them to be different (in which case it might be worth doing an empirical estimate if there is time). Briefly give your reasoning in each case.</p>
+<ul>
+<li>Unique cookies to view page per day: 40000</li>
+<li>Unique cookies to click “Start free trial” per day: 3200</li>
+<li>Enrollments per day: 660</li>
+<li>Click-through-probability on “Start free trial”: 0.08</li>
+<li>Probability of enrolling, given click: 0.20625</li>
+<li>Probability of payment, given enroll: 0.53</li>
+<li>Probability of payment, given click 0.1093125</li>
+</ul>
+<p>In the experiment, we predict we need 5000 cookies oer day in each group. With the given numbers above and a scale factor of <code>0.125</code>, this results in <code>400</code> users who click the “Start free trial”-button and <code>82.5</code> enrollments.</p>
+<div id="gross-conversion" class="section level5">
+<h5>Gross conversion</h5>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjpbImdjb252X3NkIDwtIHNxcnQoMC4yMDYzICogKDEtMC4yMDYzKS80MDApIiwiZ3Jvc3Nfc2QgPC0gcm91bmQoZ2NvbnZfc2QsNCkiXX0= -->
+<pre class="r"><code>gconv_sd &lt;- sqrt(0.2063 * (1-0.2063)/400)
+gross_sd &lt;- round(gconv_sd,4)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>The SD for gross conversion is 0.0202.</p>
+</div>
+<div id="net-conversion" class="section level5">
+<h5>Net conversion</h5>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjpbImNsaWNrc19zZCA8LSBzcXJ0KDAuMTA5MyAqICgxLTAuMTA5MykvNDAwKSIsImNsaWNrc19zZCA8LSByb3VuZChjbGlja3Nfc2QsNCkiXX0= -->
+<pre class="r"><code>clicks_sd &lt;- sqrt(0.1093 * (1-0.1093)/400)
+clicks_sd &lt;- round(clicks_sd,4)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>The SD for net conversion is 0.0156.</p>
+</div>
 </div>
 <div id="sizing" class="section level3">
 <h3>Sizing</h3>
 <div id="number-of-samples-vs.power" class="section level4">
 <h4>Number of Samples vs. Power</h4>
-<p>Quiz: Indicate whether you will use the Bonferroni correction during your analysis phase, and give the number of pageviews you will need to power you experiment appropriately. (These should be the answers from the “Calculating Number of Pageviews” quiz.)</p>
+<div id="gross-conversion-1" class="section level5">
+<h5>Gross conversion</h5>
+<ul>
+<li>Baseline conversion rate: 20.625%</li>
+<li>Minimum effect: 1%</li>
+<li><span class="math inline">\(\alpha\)</span>: 0.05</li>
+<li><span class="math inline">\(\beta\)</span>: 80%</li>
+<li>Sample size: 25.835</li>
+<li>click-through-probability: 0.08</li>
+</ul>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuMjU4MzUvMC4wOCoyXG5gYGAifQ== -->
+<pre class="r"><code>25835/0.08*2</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDY0NTg3NVxuIn0= -->
+<pre><code>[1] 645875</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="net-conversion-1" class="section level5">
+<h5>Net conversion</h5>
+<ul>
+<li>Baseline conversion rate: 10.93%</li>
+<li>Minimum effect: 0.75%</li>
+<li>Sample size: 27.411</li>
+</ul>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuMjc0MTEvMC4wOCoyXG5gYGAifQ== -->
+<pre class="r"><code>27411/0.08*2</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDY4NTI3NVxuIn0= -->
+<pre><code>[1] 685275</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>As the project should have appropriate numbersfor both metrics, we have to use the higher number of pageviews. So we have to get 685.275 pageviews.</p>
+</div>
 </div>
 <div id="duration-vs.exposure" class="section level4">
 <h4>Duration vs. Exposure</h4>
-<p>Quiz: Indicate what fraction of traffic you would divert to this experiment and, given this, how many days you would need to run the experiment. (These should be the answers from the “Choosing Duration and Exposure” quiz.)</p>
-<p>Give your reasoning for the fraction you chose to divert. How risky do you think this experiment would be for Udacity?</p>
+<p>According to the numbers given above, there are 40000 unique visitors per day. To have 6825275 pageviews, the experiment will have to run for <code>170.631875</code> days. The free-trial period is 14 days, so the total amount of time this experiment will take is 32 days. I think this is a reasonable timespan.</p>
+<p>I do not think that the experiment is risky in any way. The question is not ethically problematic and is not sensitive. It might be possible to draw some conclusions from the information. For example, if users are able to spend 30 hours on the course, it’s unlikely that they have a full-time job.</p>
+<p>There can be a small financial risk for Udacity. If we assume that less visitors subscribe for the free trial when they are asked how much time they can spent, there might also be less visitors who continue the course after the free trial.</p>
 </div>
 </div>
 </div>
@@ -201,36 +311,179 @@ $(document).ready(function () {
 <h2>Experiment Analysis</h2>
 <div id="sanity-checks" class="section level3">
 <h3>Sanity Checks</h3>
-<p>Quiz: For each of your invariant metrics, give the 95% confidence interval for the value you expect to observe, the actual observed value, and whether the metric passes your sanity check. (These should be the answers from the “Sanity Checks” quiz.)</p>
-<p>For any sanity check that did not pass, explain your best guess as to what went wrong based on the day-by-day data. Do not proceed to the rest of the analysis unless all sanity checks pass.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<div id="number-of-cookies" class="section level4">
+<h4>Number of cookies</h4>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<ul>
+<li>Lower bound: 0.4988</li>
+<li>Upper bound: 0.5012</li>
+<li>Confidence interval: 0.498824, 0.501176</li>
+<li>Observed probability: 0.5006</li>
+</ul>
+</div>
+<div id="number-of-clicks" class="section level4">
+<h4>Number of clicks</h4>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<ul>
+<li>Lower bound: 0.4959</li>
+<li>Upper bound: 0.5041</li>
+<li>Confidence interval: [0.4959, 0.5041]</li>
+<li>Observed probability: 0.5005</li>
+</ul>
+</div>
+<div id="click-through-probability" class="section level4">
+<h4>Click-through-probability</h4>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<ul>
+<li>Lower bound: 0.4991</li>
+<li>Upper bound: 0.5009</li>
+<li>Confidence interval: 0.0812, 0.083</li>
+<li>Observed probability: 0.0822</li>
+</ul>
+<p>All observed values fall in the expected range, so all metrics pass the sanity check.</p>
+</div>
 </div>
 <div id="result-analysis" class="section level3">
 <h3>Result Analysis</h3>
 <div id="effect-size-tests" class="section level4">
 <h4>Effect Size Tests</h4>
-<p>Quiz: For each of your evaluation metrics, give a 95% confidence interval around the difference between the experiment and control groups. Indicate whether each metric is statistically and practically significant. (These should be the answers from the “Effect Size Tests” quiz.)</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<div id="gross-conversion-2" class="section level5">
+<h5>Gross conversion</h5>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<ul>
+<li>Difference: -0.0205549</li>
+<li>95% confidence interval: [-0.0291, -0.012]</li>
+</ul>
+<p>The difference is statistically significant as the confidence interval does not include Zero. It is also practically significant as it does not include dmin.</p>
+</div>
+<div id="net-conversion-2" class="section level5">
+<h5>Net conversion</h5>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<ul>
+<li>Difference: -0.0048737</li>
+<li>95% confidence interval: [-0.0116, 0.0019]</li>
+</ul>
+<p>The confidence interval includes Zero, so it’s not statistically significant. It includes the lower boundary for practical significance, so it’s also not practically significant.</p>
+</div>
 </div>
 <div id="sign-tests" class="section level4">
 <h4>Sign Tests</h4>
-<p>For each of your evaluation metrics, do a sign test using the day-by-day data, and report the p-value of the sign test and whether the result is statistically significant. (These should be the answers from the “Sign Tests” quiz.)</p>
+<p>To do a sign test we can use the binom.test function in R. I first create columns in the dataframe to make it easier to calculate the difference. I then count the occurences of negative and positive values.</p>
+<div id="gross-conversion-3" class="section level5">
+<h5>Gross Conversion</h5>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>There were 23 days recorded and 19 days in which the probability of enrollment for the experiment group is lower than for the control group.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYmlub20udGVzdCg0LDIzKVxuYGBgIn0= -->
+<pre class="r"><code>binom.test(4,23)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5cdEV4YWN0IGJpbm9taWFsIHRlc3RcblxuZGF0YTogIDQgYW5kIDIzXG5udW1iZXIgb2Ygc3VjY2Vzc2VzID0gNCwgbnVtYmVyIG9mIHRyaWFscyA9IDIzLFxucC12YWx1ZSA9IDAuMDAyNTk5XG5hbHRlcm5hdGl2ZSBoeXBvdGhlc2lzOiB0cnVlIHByb2JhYmlsaXR5IG9mIHN1Y2Nlc3MgaXMgbm90IGVxdWFsIHRvIDAuNVxuOTUgcGVyY2VudCBjb25maWRlbmNlIGludGVydmFsOlxuIDAuMDQ5NTA3NjUgMC4zODc4MTE4OVxuc2FtcGxlIGVzdGltYXRlczpcbnByb2JhYmlsaXR5IG9mIHN1Y2Nlc3MgXG4gICAgICAgICAgICAgIDAuMTczOTEzIFxuIn0= -->
+<pre><code>
+    Exact binomial test
+
+data:  4 and 23
+number of successes = 4, number of trials = 23,
+p-value = 0.002599
+alternative hypothesis: true probability of success is not equal to 0.5
+95 percent confidence interval:
+ 0.04950765 0.38781189
+sample estimates:
+probability of success 
+              0.173913 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>The binomical test gives us a p-value = 0.002599, so the result is statistically significant.</p>
+</div>
+<div id="net-conversion-3" class="section level5">
+<h5>Net Conversion</h5>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Like above, 23 days were recorded, but here we had only 10 days with an improvement.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYmlub20udGVzdCgxMCwyMylcbmBgYCJ9 -->
+<pre class="r"><code>binom.test(10,23)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5cdEV4YWN0IGJpbm9taWFsIHRlc3RcblxuZGF0YTogIDEwIGFuZCAyM1xubnVtYmVyIG9mIHN1Y2Nlc3NlcyA9IDEwLCBudW1iZXIgb2YgdHJpYWxzID0gMjMsXG5wLXZhbHVlID0gMC42Nzc2XG5hbHRlcm5hdGl2ZSBoeXBvdGhlc2lzOiB0cnVlIHByb2JhYmlsaXR5IG9mIHN1Y2Nlc3MgaXMgbm90IGVxdWFsIHRvIDAuNVxuOTUgcGVyY2VudCBjb25maWRlbmNlIGludGVydmFsOlxuIDAuMjMxOTE0MiAwLjY1NTA1MzRcbnNhbXBsZSBlc3RpbWF0ZXM6XG5wcm9iYWJpbGl0eSBvZiBzdWNjZXNzIFxuICAgICAgICAgICAgIDAuNDM0NzgyNiBcbiJ9 -->
+<pre><code>
+    Exact binomial test
+
+data:  10 and 23
+number of successes = 10, number of trials = 23,
+p-value = 0.6776
+alternative hypothesis: true probability of success is not equal to 0.5
+95 percent confidence interval:
+ 0.2319142 0.6550534
+sample estimates:
+probability of success 
+             0.4347826 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>The p-value = 0.6776, so the difference is not statistically significant.</p>
+</div>
 </div>
 <div id="summary" class="section level4">
 <h4>Summary</h4>
-<p>State whether you used the Bonferroni correction, and explain why or why not. If there are any discrepancies between the effect size hypothesis tests and the sign tests, describe the discrepancy and why you think it arose.</p>
+<p>The main result of the experiment is that the gross conversion did decrease significantly. This supports the hypothesis. However, the net conversion had a confidence interval above and below zero and ist not statically significant for that reason.</p>
+<p>For this experiment the Bonferroni correction was not used as I all metrics have to be statistically significant to recommend the changes done in this experiment.</p>
 </div>
 </div>
 <div id="recommendation" class="section level3">
 <h3>Recommendation</h3>
-<p>Make a recommendation and briefly describe your reasoning.</p>
+<p>There are two main points we have learned from the experiment:</p>
+<ul>
+<li>Less users enroll in the free trial: the Gross conversion is statistically and practically lower, so we can assume that the warning regarding the required working hours has an effect.</li>
+<li>The results of the Net conversion are neither stastically nor practically significant. Furthermore, the confidence interval includes negative values, which indicates that the change could even have a negative influence (i.e. a lower amount of paid subscriptions).</li>
+</ul>
+<p>Therefore, it is <em>not</em> recommended to implement the change.</p>
 </div>
 </div>
 <div id="follow-up-experiment" class="section level2">
 <h2>Follow-Up Experiment</h2>
-<p>Give a high-level description of the follow up experiment you would run, what your hypothesis would be, what metrics you would want to measure, what your unit of diversion would be, and your reasoning for these choices.</p>
+<p>In this experiment we only focussed on the time a user is able to spend on the course and considered this as the main reason for users to cancel their subscription before the end of the trial period. However, I think there are many more reasons why users cancel. One, which I consider quite likely for Nanodegree programs is that user are just overchallenged by the long list of course material. They might also have problems to start with a topic because they are missing basics.</p>
+<p>My idea would be to contact users after half of the trial period (i.e. 7 days) and invite users to get some expert advice in case there are any problems with the content. This does not necessarily require an individual personal guidance, but an in-depth</p>
+<p>I would use the same metrics and the same diversion like in this experiment. My null hypothesis would be: Sending users emails to invite them to get some expert advice will not increase the number of enrollments.</p>
+</div>
+<div id="ressources" class="section level2">
+<h2>Ressources</h2>
+<ul>
+<li>Udacity course material</li>
+</ul>
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKIyMgRXhwZXJpbWVudCBEZXNpZ24KIyMjIE1ldHJpYyBDaG9pY2UKClF1aXo6IExpc3Qgd2hpY2ggbWV0cmljcyB5b3Ugd2lsbCB1c2UgYXMgaW52YXJpYW50IG1ldHJpY3MgYW5kIGV2YWx1YXRpb24gbWV0cmljcyBoZXJlLiAoVGhlc2Ugc2hvdWxkIGJlIHRoZSBzYW1lIG1ldHJpY3MgeW91IGNob3NlIGluIHRoZSAiQ2hvb3NpbmcgSW52YXJpYW50IE1ldHJpY3MiIGFuZCAiQ2hvb3NpbmcgRXZhbHVhdGlvbiBNZXRyaWNzIiBxdWl6emVzLikKCkZvciBlYWNoIG1ldHJpYywgZXhwbGFpbiBib3RoIHdoeSB5b3UgZGlkIG9yIGRpZCBub3QgdXNlIGl0IGFzIGFuIGludmFyaWFudCBtZXRyaWMgYW5kIHdoeSB5b3UgZGlkIG9yIGRpZCBub3QgdXNlIGl0IGFzIGFuIGV2YWx1YXRpb24gbWV0cmljLiBBbHNvLCBzdGF0ZSB3aGF0IHJlc3VsdHMgeW91IHdpbGwgbG9vayBmb3IgaW4geW91ciBldmFsdWF0aW9uIG1ldHJpY3MgaW4gb3JkZXIgdG8gbGF1bmNoIHRoZSBleHBlcmltZW50LgoKIyMjIE1lYXN1cmluZyBTdGFuZGFyZCBEZXZpYXRpb24KUXVpejogTGlzdCB0aGUgc3RhbmRhcmQgZGV2aWF0aW9uIG9mIGVhY2ggb2YgeW91ciBldmFsdWF0aW9uIG1ldHJpY3MuIChUaGVzZSBzaG91bGQgYmUgdGhlIGFuc3dlcnMgZnJvbSB0aGUgIkNhbGN1bGF0aW5nIHN0YW5kYXJkIGRldmlhdGlvbiIgcXVpei4pCgpGb3IgZWFjaCBvZiB5b3VyIGV2YWx1YXRpb24gbWV0cmljcywgaW5kaWNhdGUgd2hldGhlciB5b3UgdGhpbmsgdGhlIGFuYWx5dGljIGVzdGltYXRlIHdvdWxkIGJlIGNvbXBhcmFibGUgdG8gdGhlIHRoZSBlbXBpcmljYWwgdmFyaWFiaWxpdHksIG9yIHdoZXRoZXIgeW91IGV4cGVjdCB0aGVtIHRvIGJlIGRpZmZlcmVudCAoaW4gd2hpY2ggY2FzZSBpdCBtaWdodCBiZSB3b3J0aCBkb2luZyBhbiBlbXBpcmljYWwgZXN0aW1hdGUgaWYgdGhlcmUgaXMgdGltZSkuIEJyaWVmbHkgZ2l2ZSB5b3VyIHJlYXNvbmluZyBpbiBlYWNoIGNhc2UuCgojIyMgU2l6aW5nCiMjIyMgTnVtYmVyIG9mIFNhbXBsZXMgdnMuIFBvd2VyClF1aXo6IEluZGljYXRlIHdoZXRoZXIgeW91IHdpbGwgdXNlIHRoZSBCb25mZXJyb25pIGNvcnJlY3Rpb24gZHVyaW5nIHlvdXIgYW5hbHlzaXMgcGhhc2UsIGFuZCBnaXZlIHRoZSBudW1iZXIgb2YgcGFnZXZpZXdzIHlvdSB3aWxsIG5lZWQgdG8gcG93ZXIgeW91IGV4cGVyaW1lbnQgYXBwcm9wcmlhdGVseS4gKFRoZXNlIHNob3VsZCBiZSB0aGUgYW5zd2VycyBmcm9tIHRoZSAiQ2FsY3VsYXRpbmcgTnVtYmVyIG9mIFBhZ2V2aWV3cyIgcXVpei4pCgojIyMjIER1cmF0aW9uIHZzLiBFeHBvc3VyZQpRdWl6OiBJbmRpY2F0ZSB3aGF0IGZyYWN0aW9uIG9mIHRyYWZmaWMgeW91IHdvdWxkIGRpdmVydCB0byB0aGlzIGV4cGVyaW1lbnQgYW5kLCBnaXZlbiB0aGlzLCBob3cgbWFueSBkYXlzIHlvdSB3b3VsZCBuZWVkIHRvIHJ1biB0aGUgZXhwZXJpbWVudC4gKFRoZXNlIHNob3VsZCBiZSB0aGUgYW5zd2VycyBmcm9tIHRoZSAiQ2hvb3NpbmcgRHVyYXRpb24gYW5kIEV4cG9zdXJlIiBxdWl6LikKCkdpdmUgeW91ciByZWFzb25pbmcgZm9yIHRoZSBmcmFjdGlvbiB5b3UgY2hvc2UgdG8gZGl2ZXJ0LiBIb3cgcmlza3kgZG8geW91IHRoaW5rIHRoaXMgZXhwZXJpbWVudCB3b3VsZCBiZSBmb3IgVWRhY2l0eT8KCiMjIEV4cGVyaW1lbnQgQW5hbHlzaXMKIyMjIFNhbml0eSBDaGVja3MKUXVpejogRm9yIGVhY2ggb2YgeW91ciBpbnZhcmlhbnQgbWV0cmljcywgZ2l2ZSB0aGUgOTUlIGNvbmZpZGVuY2UgaW50ZXJ2YWwgZm9yIHRoZSB2YWx1ZSB5b3UgZXhwZWN0IHRvIG9ic2VydmUsIHRoZSBhY3R1YWwgb2JzZXJ2ZWQgdmFsdWUsIGFuZCB3aGV0aGVyIHRoZSBtZXRyaWMgcGFzc2VzIHlvdXIgc2FuaXR5IGNoZWNrLiAoVGhlc2Ugc2hvdWxkIGJlIHRoZSBhbnN3ZXJzIGZyb20gdGhlICJTYW5pdHkgQ2hlY2tzIiBxdWl6LikKCkZvciBhbnkgc2FuaXR5IGNoZWNrIHRoYXQgZGlkIG5vdCBwYXNzLCBleHBsYWluIHlvdXIgYmVzdCBndWVzcyBhcyB0byB3aGF0IHdlbnQgd3JvbmcgYmFzZWQgb24gdGhlIGRheS1ieS1kYXkgZGF0YS4gRG8gbm90IHByb2NlZWQgdG8gdGhlIHJlc3Qgb2YgdGhlIGFuYWx5c2lzIHVubGVzcyBhbGwgc2FuaXR5IGNoZWNrcyBwYXNzLgoKIyMjIFJlc3VsdCBBbmFseXNpcwojIyMjIEVmZmVjdCBTaXplIFRlc3RzClF1aXo6IEZvciBlYWNoIG9mIHlvdXIgZXZhbHVhdGlvbiBtZXRyaWNzLCBnaXZlIGEgOTUlIGNvbmZpZGVuY2UgaW50ZXJ2YWwgYXJvdW5kIHRoZSBkaWZmZXJlbmNlIGJldHdlZW4gdGhlIGV4cGVyaW1lbnQgYW5kIGNvbnRyb2wgZ3JvdXBzLiBJbmRpY2F0ZSB3aGV0aGVyIGVhY2ggbWV0cmljIGlzIHN0YXRpc3RpY2FsbHkgYW5kIHByYWN0aWNhbGx5IHNpZ25pZmljYW50LiAoVGhlc2Ugc2hvdWxkIGJlIHRoZSBhbnN3ZXJzIGZyb20gdGhlICJFZmZlY3QgU2l6ZSBUZXN0cyIgcXVpei4pCgojIyMjIFNpZ24gVGVzdHMKRm9yIGVhY2ggb2YgeW91ciBldmFsdWF0aW9uIG1ldHJpY3MsIGRvIGEgc2lnbiB0ZXN0IHVzaW5nIHRoZSBkYXktYnktZGF5IGRhdGEsIGFuZCByZXBvcnQgdGhlIHAtdmFsdWUgb2YgdGhlIHNpZ24gdGVzdCBhbmQgd2hldGhlciB0aGUgcmVzdWx0IGlzIHN0YXRpc3RpY2FsbHkgc2lnbmlmaWNhbnQuIChUaGVzZSBzaG91bGQgYmUgdGhlIGFuc3dlcnMgZnJvbSB0aGUgIlNpZ24gVGVzdHMiIHF1aXouKQoKIyMjIyBTdW1tYXJ5ClN0YXRlIHdoZXRoZXIgeW91IHVzZWQgdGhlIEJvbmZlcnJvbmkgY29ycmVjdGlvbiwgYW5kIGV4cGxhaW4gd2h5IG9yIHdoeSBub3QuIElmIHRoZXJlIGFyZSBhbnkgZGlzY3JlcGFuY2llcyBiZXR3ZWVuIHRoZSBlZmZlY3Qgc2l6ZSBoeXBvdGhlc2lzIHRlc3RzIGFuZCB0aGUgc2lnbiB0ZXN0cywgZGVzY3JpYmUgdGhlIGRpc2NyZXBhbmN5IGFuZCB3aHkgeW91IHRoaW5rIGl0IGFyb3NlLgoKIyMjIFJlY29tbWVuZGF0aW9uCk1ha2UgYSByZWNvbW1lbmRhdGlvbiBhbmQgYnJpZWZseSBkZXNjcmliZSB5b3VyIHJlYXNvbmluZy4KCiMjIEZvbGxvdy1VcCBFeHBlcmltZW50CkdpdmUgYSBoaWdoLWxldmVsIGRlc2NyaXB0aW9uIG9mIHRoZSBmb2xsb3cgdXAgZXhwZXJpbWVudCB5b3Ugd291bGQgcnVuLCB3aGF0IHlvdXIgaHlwb3RoZXNpcyB3b3VsZCBiZSwgd2hhdCBtZXRyaWNzIHlvdSB3b3VsZCB3YW50IHRvIG1lYXN1cmUsIHdoYXQgeW91ciB1bml0IG9mIGRpdmVyc2lvbiB3b3VsZCBiZSwgYW5kIHlvdXIgcmVhc29uaW5nIGZvciB0aGVzZSBjaG9pY2VzLgoK</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKIyMgRXhwZXJpbWVudCBEZXNpZ24KClRoZXJlIGFyZSB0d28gb3B0aW9ucyBhIHVzZXIgY2FuIGNob29zZSBmb3IgVWRhY2l0eSBjb3Vyc2VzLiBUaGUgZmlyc3QgaXMgYSAiZnJlZSB0cmlhbCIsIHRoZSBzZWNvbmQgaXMgImFjY2VzcyBjb3Vyc2UgbWF0ZXJpYWxzIi4gV2hlbiB0aGV5IGNsaWNrIG9uIHRoZSBmaXJzdCBvcHRpb24sIHRoZXkgd2lsbCBiZSBhc2tlZCB0byBlbnRlciB0aGVpciBwYXltZW50IGRhdGEgYW5kIGVucm9sbGVkIGluIGEgMTQgZGF5cyB0cmlhbCBwZXJpb2QuIEFmdGVyIHRoYXQsIHRoZXkgd2lsbCBiZSBjaGFyZ2VkIHVudGlsIHRoZXkgY2FuY2VsIHRoZWlyIHN1YnNjcmlwdGlvbi4KRm9yIHRoZSBzZWNvbmQgb3B0aW9uLCB0aGV5IGFyZSBhYmxlIHRvIHZpZXcgYWxsIGNvdXJzZSBtYXRlcmlhbCBmb3IgZnJlZSwgYnV0IHRoZXkgd2lsbCBub3QgcmVjZWl2ZSBjb2FjaGluZyBhbmQgY2Fubm90IHN1Ym1pdCB0aGVpciBmaW5hbCBwcm9qZWN0cyAoYW5kIGdldCBhIGNvdXJzZSBjZXJ0aWZpY2F0ZSkuCgpVZGFjaXR5IHRlc3RlZCBob3cgYSBjaGFuZ2Ugb2YgdGhlIGZyZWUgdHJpYWwgcGVyaW9kIHdvdWxkIGNoYW5nZSB0aGUgdXNlcnMgYmVoYXZpb3IuIEFmdGVyIGNsaWNraW5nIG9uIHRoZSAiZnJlZSB0cmlhbCItYnV0dG9uLCB0aGUgdXNlcnMgd2VyZSBhc2tlZCBob3cgbXVjaCB0aW1lIHRoZXkgd291bGQgYmUgYWJsZSB0byBzcGVudCBvbiB0aGUgY291cnNlLiBJZiB0aGF0IHdhcyA1IGhvdXJzIG9yIG1vcmUsIHRoZXkgd2VyZSBzaG93biB0aGV5IHdlcmUgZm9yd2FyZGVkIHRvIHRoZSBwYWdlIHdoZXJlIHRoZXkgaGF2ZSB0byBlbnRlciB0aGVpciBwYXltZW50IGRhdGEuIElmIHRoZXkgZW50ZXJlZCBsZXNzIHRoYW4gNSBob3VycywgYSB3YXJuaW5nIHdhcyBkaXNwbGF5ZWQgdGhhdCB0aGUgY291cnNlIHVzdWFsbHkgcmVxdWlyZXMgYSBjb21taXRtZW50IG9mIG1vcmUgdGhhbiA1IGhvdXJzIGFuZCBhY2Nlc3NpbmcgdGhlIGZyZWUgY291cnNlIG1hdGVyaWFsIG1pZ2h0IGJlIHRoZSBiZXR0ZXIgb3B0aW9uLiBTdGlsbCwgdGhleSBoYWQgdGhlIG9wdGlvbiB0byBlbnJvbGwgaW4gdGhlIGZyZWUgdHJpYWwgaW5zdGVhZC4KClRoZSBoeXBvdGhlc2lzIHdhcyB0aGF0IHRoaXMgd291bGQgcmVkdWNlIHRoZSBudW1iZXIgb2YgZnJ1c3RyYXRlZCBzdHVkZW50cyB3aG8gbGVmdCB0aGUgZnJlZSB0cmlhbCBiZWNhdXNlIHRoZXkgcmVhbGl6ZWQgdGhleSBkaWRuJ3QgaGF2ZSBlbm91Z2ggdGltZSwgYnV0IHRoZSBudW1iZXIgb2Ygc3R1ZGVudHMgd2hvIHdvdWxkIGNvbnRpbnVlIHBhc3QgdGhlIGZyZWUgdHJpYWwgd291bGQgbm90IGJlIHJlZHVjZWQuCgpBcyBhIHVuaXQgb2YgZGl2ZXJzaW9uIGNvb2tpZXMgd2VyZSB1c2VkLiBBZnRlciBzdHVkZW50cyBlbnJvbGxlZCwgdGhleSBjYW4gYmUgaWRlbnRpZmllZCBieSB0aGVpciB1c2VyLWlkLiBJdCdzIG5vdCBwb3NzaWJsZSB0byBlbnJvbGwgaW4gdGhlIHNhbWUgZnJlIHRyaWFsIG1vcmUgdGhhbiBvbmNlLgoKIyMjIE1ldHJpYyBDaG9pY2UKCkkgd2lsbCBmaXJzdCBsaXN0IHRoZSBtZXRyaWNzIHdpdGggYW4gZXhwbGFuYXRpb24gZm9yIGVhY2guIFRoZW4gSSB3aWxsIHByZXNlbnQgbXkgY2hvaWNlcyBmb3IgaW52YXJpYW50IGFuZCBldmFsdWF0aW9uIG1ldHJpY3MuCgoqIE51bWJlciBvZiBjb29raWVzOiBUaGF0IGlzLCBudW1iZXIgb2YgdW5pcXVlIGNvb2tpZXMgdG8gdmlldyB0aGUgY291cnNlIG92ZXJ2aWV3IHBhZ2UKKiBOdW1iZXIgb2YgdXNlci1pZHM6IFRoYXQgaXMsIG51bWJlciBvZiB1c2VycyB3aG8gZW5yb2xsIGluIHRoZSBmcmVlIHRyaWFsLgoqIE51bWJlciBvZiBjbGlja3M6IFRoYXQgaXMsIG51bWJlciBvZiB1bmlxdWUgY29va2llcyB0byBjbGljayB0aGUgIlN0YXJ0IGZyZWUgdHJpYWwiIGJ1dHRvbiAod2hpY2ggaGFwcGVucyBiZWZvcmUgdGhlIGZyZWUgdHJpYWwgc2NyZWVuZXIgaXMgdHJpZ2dlcikKKiBDbGljay10aHJvdWdoLXByb2JhYmlsaXR5OiAgVGhhdCBpcywgbnVtYmVyIG9mIHVuaXF1ZSBjb29raWVzIHRvIGNsaWNrIHRoZSAiU3RhcnQgZnJlZSB0cmlhbCIgYnV0dG9uIGRpdmlkZWQgYnkgbnVtYmVyIG9mIHVuaXF1ZSBjb29raWVzIHRvIHZpZXcgdGhlIGNvdXJzZSBvdmVydmlldyBwYWdlCiogR3Jvc3MgY29udmVyc2lvbjogVGhhdCBpcywgbnVtYmVyIG9mIHVzZXItaWRzIHRvIGNvbXBsZXRlIGNoZWNrb3V0IGFuZCBlbnJvbGwgaW4gdGhlIGZyZWUgdHJpYWwgZGl2aWRlZCBieSBudW1iZXIgb2YgdW5pcXVlIGNvb2tpZXMgdG8gY2xpY2sgdGhlICJTdGFydCBmcmVlIHRyaWFsIiBidXR0b24uCiogUmV0ZW50aW9uOiBUaGF0IGlzLCBudW1iZXIgb2YgdXNlci1pZHMgdG8gcmVtYWluIGVucm9sbGVkIHBhc3QgdGhlIDE0LWRheSBib3VuZGFyeSAoYW5kIHRodXMgbWFrZSBhdCBsZWFzdCBvbmUgcGF5bWVudCkgZGl2aWRlZCBieSBudW1iZXIgb2YgdXNlci1pZHMgdG8gY29tcGxldGUgY2hlY2tvdXQuCiogTmV0IGNvbnZlcnNpb246IFRoYXQgaXMsIG51bWJlciBvZiB1c2VyLWlkcyB0byByZW1haW4gZW5yb2xsZWQgcGFzdCB0aGUgMTQtZGF5CmJvdW5kYXJ5IChhbmQgdGh1cyBtYWtlIGF0IGxlYXN0IG9uZSBwYXltZW50KSBkaXZpZGVkIGJ5IHRoZSBudW1iZXIgb2YgdW5pcXVlCmNvb2tpZXMgdG8gY2xpY2sgdGhlICJTdGFydCBmcmVlIHRyaWFsIiBidXR0b24uCgojIyMjIEludmFyaWFudCBtZXRyaWNzCkludmFyaWFudCBtZXRyaWNzIHNob3VsZG4ndCBjaGFuZ2UgYWNyb3NzIHRoZSBleHBlcmltZW50YWwgYW5kIHRoZSBjb250cm9sIGdyb3VwLiBUaGV5IGNhbiBiZSB1c2VkIHRvIGNoZWNrIHRoZSBpbnRlZ3JpdHkgb2YgdGhlIG1lYXN1cmVtZW50IGFmdGVyIHRoZSBleHBlcmltZW50LgoKVGhlIG1haW4gZ29hbCBvZiB0aGlzIGV4cGVyaW1lbnQgaXMgdG8gc2VlIGhvdyB1c2VycyByZWFjdCB0byB0aGUgbmV3IHF1ZXJ5IG1lc3NhZ2UgZGlzcGxheWVkIGFmdGVyIHRoZXkgd2FudCB0byBqb2luIGZvciB0aGUgdHJpYWwuIFRoZXJlZm9yZSwgdGhlIGZvbGxvd2luZyB2YXJpYWJsZXMgZG8gbm90IGNoYW5nZToKCiogTnVtYmVyIG9mIGNvb2tpZXM6IFRoZSBudW1iZXIgcmVwcmVzZW50cyB0aGUgdW5pcXVlIHZpc2l0b3JzIG9mIHRoZSB3ZWJzaXRlLiBUaGUgYWltIGlzIHRvIHNwbGl0IHRoZW0gYmV0d2VlbiB0aGUgZXhwZXJpbWVudGFsIGFuZCB0aGUgY29udHJvbCBncm91cC4KKiBOdW1iZXIgb2YgY2xpY2tzOiBUaGUgZXhwZXJpbWVudCBpcyBmb2N1c2luZyBvbiB0aGUgcGFydCBhZnRlciB0aGUgIlN0YXJ0IGZyZWUgdHJpYWwiIGJ1dHRvbiBoYXMgYmVlbiBwcmVzc2VkLiBUaGVyZWZvcmUsIHRoZSBudW1iZXIgb2YgY2xpY2tzIHNob3VsZCBiZSB0aGUgc2FtZSBhY3Jvc3MgdGhlIGV4cGVyaW1lbnRhbCBhbmQgdGhlIGNvbnRyb2wgZ3JvdXAuCiogQ2xpY2stdGhyb3VnaC1wcm9iYWJpbGl0eTogVGhpcyBwcm9iYWJpbGl0eSBpcyB0aGUgbnVtYmVyIG9mIGNsaWNrcyBkaXZpZGVkIGJ5IHRoZSBudW1iZXIgb2YgY29va2llcy4gQXMgYm90aCBvZiB0aGVzZSB2YXJpYWJsZXMgYXJlIGludmFyaWFudCwgdGhlIGNsaWNrLXRocm91Z2gtcHJvYmFiaWxpdHkgaXMgaW52YXJpYW50IGFzIHdlbGwuCgojIyMjIEV2YWx1YXRpb24gbWV0cmljcwpFdmFsdWF0aW9uIG1ldHJpY3MgYXJlIGV4cGVjdGVkIHRvIHNob3cgdGhlIGNoYW5nZXMgYWNyb3NzIHRoZSBleHBlcmltZW50YWwgYW5kIHRoZSBjb250cm9sIGdyb3VwLiBGb3IgdGhpcyBleHBlcmltZW50IHdlIGhhdmUgdGhlIGZvbGxvd2luZyBldmFsdWF0aW9uIG1ldHJpY3M6CgoqIEdyb3NzIGNvbnZlcnNpb246IFRoZSBoeXBvdGhlc2lzIGlzIHRoYXQgdGhlIGdyb3NzIGNvbnZlcnNpb24gZm9yIHRoZSBleHBlcmltZW50YWwgZ3JvdXAgaXMgbG93ZXIgdGhhbiB0aGUgZ3Jvc3MgY29udmVyc2lvbiBmb3IgdGhlIGNvbnRyb2wgZ3JvdXAuCiogTmV0IGNvbnZlcnNpb246IFRoZSBuZXQgY29udmVyc2lvbiBpcyB0aGUgZXZhbHVhdGlvbiBtZXRyaWMgcmVwcmVzZW50aW5nIHRoZSBudW1iZXIgb2Ygc3R1ZGVudHMgd2hvIGtlZXAgc3Vic2NyaWJlZCBhZnRlciB0aGUgZnJlZSB0cmlhbCBwZXJpb2QuIFRoZSBoeXBvdGhlc2lzIGlzIHRoYXQgaXQgZG9lc24ndCBjaGFuZ2Ugc2lnbmlmaWNhbnRseSBmb3IgdGhlIGV4cGVyaW1lbnRhbCBncm91cC4KCiMjIyMgT3RoZXIKKiBOdW1iZXIgb2YgdXNlci1pZHMKKiBSZXRlbnRpb24KClRoZSBudW1iZXIgb2YgdXNlci1pZHMgYWxvbmUgZG9lcyBub3QgZ2l2ZSB1cyBhbnkgdmFsdWFibGUgaW5mb3JtYXRpb24uIFdlIGFyZSBpbnRlcmVzdGVkIGluIHRoZSBudW1iZXIgb2YgcGVvcGxlIHdobyBhY3R1YWxseSBlbnJvbGwuCgojIyMgTWVhc3VyaW5nIFN0YW5kYXJkIERldmlhdGlvbgoqIFVuaXF1ZSBjb29raWVzIHRvIHZpZXcgcGFnZSBwZXIgZGF5Ogk0MDAwMAoqIFVuaXF1ZSBjb29raWVzIHRvIGNsaWNrICJTdGFydCBmcmVlIHRyaWFsIiBwZXIgZGF5OgkzMjAwCiogRW5yb2xsbWVudHMgcGVyIGRheToJNjYwCiogQ2xpY2stdGhyb3VnaC1wcm9iYWJpbGl0eSBvbiAiU3RhcnQgZnJlZSB0cmlhbCI6CTAuMDgKKiBQcm9iYWJpbGl0eSBvZiBlbnJvbGxpbmcsIGdpdmVuIGNsaWNrOgkwLjIwNjI1CiogUHJvYmFiaWxpdHkgb2YgcGF5bWVudCwgZ2l2ZW4gZW5yb2xsOgkwLjUzCiogUHJvYmFiaWxpdHkgb2YgcGF5bWVudCwgZ2l2ZW4gY2xpY2sJMC4xMDkzMTI1CgpJbiB0aGUgZXhwZXJpbWVudCwgd2UgcHJlZGljdCB3ZSBuZWVkIDUwMDAgY29va2llcyBvZXIgZGF5IGluIGVhY2ggZ3JvdXAuIFdpdGggdGhlIGdpdmVuIG51bWJlcnMgYWJvdmUgYW5kIGEgc2NhbGUgZmFjdG9yIG9mIGBgciA1MDAwLzQwMDAwYGAsIHRoaXMgcmVzdWx0cyBpbiBgYHIgMzIwMCowLjEyNWBgIHVzZXJzIHdobyBjbGljayB0aGUgIlN0YXJ0IGZyZWUgdHJpYWwiLWJ1dHRvbiBhbmQgYGByIDY2MCowLjEyNWBgIGVucm9sbG1lbnRzLgoKIyMjIyMgR3Jvc3MgY29udmVyc2lvbgpgYGB7ciBldmFsPUZBTFNFfQpnY29udl9zZCA8LSBzcXJ0KDAuMjA2MyAqICgxLTAuMjA2MykvNDAwKQpncm9zc19zZCA8LSByb3VuZChnY29udl9zZCw0KQpgYGAKClRoZSBTRCBmb3IgZ3Jvc3MgY29udmVyc2lvbiBpcyBgciBncm9zc19zZGAuCgojIyMjIyBOZXQgY29udmVyc2lvbgpgYGB7ciBldmFsPUZBTFNFfQpjbGlja3Nfc2QgPC0gc3FydCgwLjEwOTMgKiAoMS0wLjEwOTMpLzQwMCkKY2xpY2tzX3NkIDwtIHJvdW5kKGNsaWNrc19zZCw0KQpgYGAKClRoZSBTRCBmb3IgbmV0IGNvbnZlcnNpb24gaXMgYHIgY2xpY2tzX3NkYC4KCiMjIyBTaXppbmcKIyMjIyBOdW1iZXIgb2YgU2FtcGxlcyB2cy4gUG93ZXIKIyMjIyMgR3Jvc3MgY29udmVyc2lvbgoqIEJhc2VsaW5lIGNvbnZlcnNpb24gcmF0ZToJMjAuNjI1JQoqIE1pbmltdW0gZWZmZWN0OiAxJQoqICRcYWxwaGEkOiAwLjA1CiogJFxiZXRhJDogODAlCiogU2FtcGxlIHNpemU6IDI1LjgzNQoqIGNsaWNrLXRocm91Z2gtcHJvYmFiaWxpdHk6IDAuMDgKCgpgYGB7cn0KMjU4MzUvMC4wOCoyCmBgYAoKIyMjIyMgTmV0IGNvbnZlcnNpb24KKiBCYXNlbGluZSBjb252ZXJzaW9uIHJhdGU6CTEwLjkzJQoqIE1pbmltdW0gZWZmZWN0OiAwLjc1JQoqIFNhbXBsZSBzaXplOiAyNy40MTEKCmBgYHtyfQoyNzQxMS8wLjA4KjIKYGBgCgpBcyB0aGUgcHJvamVjdCBzaG91bGQgaGF2ZSBhcHByb3ByaWF0ZSBudW1iZXJzZm9yIGJvdGggbWV0cmljcywgd2UgaGF2ZSB0byB1c2UgdGhlIGhpZ2hlciBudW1iZXIgb2YgcGFnZXZpZXdzLiBTbyB3ZSBoYXZlIHRvIGdldCA2ODUuMjc1IHBhZ2V2aWV3cy4KCiMjIyMgRHVyYXRpb24gdnMuIEV4cG9zdXJlCkFjY29yZGluZyB0byB0aGUgbnVtYmVycyBnaXZlbiBhYm92ZSwgdGhlcmUgYXJlIDQwMDAwIHVuaXF1ZSB2aXNpdG9ycyBwZXIgZGF5LiBUbyBoYXZlIDY4MjUyNzUgcGFnZXZpZXdzLCB0aGUgZXhwZXJpbWVudCB3aWxsIGhhdmUgdG8gcnVuIGZvciBgYHIgNjgyNTI3NS80MDAwMGBgIGRheXMuClRoZSBmcmVlLXRyaWFsIHBlcmlvZCBpcyAxNCBkYXlzLCBzbyB0aGUgdG90YWwgYW1vdW50IG9mIHRpbWUgdGhpcyBleHBlcmltZW50IHdpbGwgdGFrZSBpcyAzMiBkYXlzLiBJIHRoaW5rIHRoaXMgaXMgYSByZWFzb25hYmxlIHRpbWVzcGFuLgoKSSBkbyBub3QgdGhpbmsgdGhhdCB0aGUgZXhwZXJpbWVudCBpcyByaXNreSBpbiBhbnkgd2F5LiBUaGUgcXVlc3Rpb24gaXMgbm90IGV0aGljYWxseSBwcm9ibGVtYXRpYyBhbmQgaXMgbm90IHNlbnNpdGl2ZS4gSXQgbWlnaHQgYmUgcG9zc2libGUgdG8gZHJhdyBzb21lIGNvbmNsdXNpb25zIGZyb20gdGhlIGluZm9ybWF0aW9uLiBGb3IgZXhhbXBsZSwgaWYgdXNlcnMgYXJlIGFibGUgdG8gc3BlbmQgMzAgaG91cnMgb24gdGhlIGNvdXJzZSwgaXQncyB1bmxpa2VseSB0aGF0IHRoZXkgaGF2ZSBhIGZ1bGwtdGltZSBqb2IuIAoKVGhlcmUgY2FuIGJlIGEgc21hbGwgZmluYW5jaWFsIHJpc2sgZm9yIFVkYWNpdHkuIElmIHdlIGFzc3VtZSB0aGF0IGxlc3MgdmlzaXRvcnMgc3Vic2NyaWJlIGZvciB0aGUgZnJlZSB0cmlhbCB3aGVuIHRoZXkgYXJlIGFza2VkIGhvdyBtdWNoIHRpbWUgdGhleSBjYW4gc3BlbnQsIHRoZXJlIG1pZ2h0IGFsc28gYmUgbGVzcyB2aXNpdG9ycyB3aG8gY29udGludWUgdGhlIGNvdXJzZSBhZnRlciB0aGUgZnJlZSB0cmlhbC4KCiMjIEV4cGVyaW1lbnQgQW5hbHlzaXMKIyMjIFNhbml0eSBDaGVja3MKYGBge3IgZXZhbD1GQUxTRSwgZWNobz1GQUxTRX0KY29udHJvbCA8LSByZWFkLnRhYmxlKCJDb250cm9sLmNzdiIsIHNlcD0iLCIsIGhlYWRlciA9IFRSVUUpCmV4cGVyaW1lbnQgPC0gcmVhZC50YWJsZSgiRXhwZXJpbWVudC5jc3YiLCBzZXA9IiwiLCBoZWFkZXIgPSBUUlVFKQpgYGAKCiMjIyMgTnVtYmVyIG9mIGNvb2tpZXMKYGBge3IgZXZhbD1GQUxTRSwgZWNobz1GQUxTRX0KY1ZpZXdzIDwtIHN1bShjb250cm9sJFBhZ2V2aWV3cykKZVZpZXdzIDwtIHN1bShleHBlcmltZW50JFBhZ2V2aWV3cykKc2RfY29va2llcyA8LSByb3VuZChzcXJ0KCgwLjUqMC41KS8oY1ZpZXdzK2VWaWV3cykpLDQpCm1lX2Nvb2tpZXMgPC0gc2RfY29va2llcyoxLjk2Cmxvd2VyQm91bmRfY29va2llcyA8LSAwLjUgLSBtZV9jb29raWVzCnVwcGVyQm91bmRfY29va2llcyA8LSAwLjUgKyBtZV9jb29raWVzCm9ic2VydmVkX2Nvb2tpZXMgPC0gcm91bmQoY1ZpZXdzLyhjVmlld3MrZVZpZXdzKSw0KQpgYGAKCiogTG93ZXIgYm91bmQ6IGByIHJvdW5kKGxvd2VyQm91bmRfY29va2llcyAsNClgCiogVXBwZXIgYm91bmQ6IGByIHJvdW5kKHVwcGVyQm91bmRfY29va2llcyAsNClgCiogQ29uZmlkZW5jZSBpbnRlcnZhbDogYHIgMC41LSBtZV9jb29raWVzYCwgYHIgMC41ICsgbWVfY29va2llc2AKKiBPYnNlcnZlZCBwcm9iYWJpbGl0eTogYHIgb2JzZXJ2ZWRfY29va2llc2AKCiMjIyMgTnVtYmVyIG9mIGNsaWNrcwpgYGB7ciBldmFsPUZBTFNFLCBlY2hvPUZBTFNFfQpjQ2xpY2tzIDwtIHN1bShjb250cm9sJENsaWNrcykKZUNsaWNrcyA8LSBzdW0oZXhwZXJpbWVudCRDbGlja3MpCnNkX2NsaWNrcyA8LSByb3VuZChzcXJ0KCgwLjUqMC41KS8oY0NsaWNrcytlQ2xpY2tzKSksNCkKbWVfY2xpY2tzIDwtIHNkX2NsaWNrcyoxLjk2Cmxvd2VyQm91bmRfY2xpY2tzIDwtIDAuNSAtIG1lX2NsaWNrcwp1cHBlckJvdW5kX2NsaWNrcyA8LSAwLjUgKyBtZV9jbGlja3MKb2JzZXJ2ZWRfY2xpY2tzIDwtIGNDbGlja3MvKGNDbGlja3MrZUNsaWNrcykKYGBgCgoqIExvd2VyIGJvdW5kOiBgciByb3VuZChsb3dlckJvdW5kX2NsaWNrcyw0KWAKKiBVcHBlciBib3VuZDogYHIgcm91bmQodXBwZXJCb3VuZF9jbGlja3MsNClgCiogQ29uZmlkZW5jZSBpbnRlcnZhbDogW2ByIHJvdW5kKDAuNS0gbWVfY2xpY2tzLDQpYCwgYHIgcm91bmQoMC41ICsgbWVfY2xpY2tzLDQpYF0KKiBPYnNlcnZlZCBwcm9iYWJpbGl0eTogYHIgcm91bmQob2JzZXJ2ZWRfY2xpY2tzLDQpYAoKIyMjIyBDbGljay10aHJvdWdoLXByb2JhYmlsaXR5CmBgYHtyIGV2YWw9RkFMU0UsIGVjaG89RkFMU0V9CmNsaWNrX3Rocm91Z2hDVFJMIDwtIGNDbGlja3MvY1ZpZXdzCnNkX2NsdGhyb3VnaCA8LSBzcXJ0KGNsaWNrX3Rocm91Z2hDVFJMKigxLWNsaWNrX3Rocm91Z2hDVFJMKS9jVmlld3MpCm1lX2NsaWNrdGhyb3VnaCA8LSBzZF9jbHRocm91Z2gqMS45Ngpsb3dlckJvdW5kX2NsaWNrdGhyb3VnaCA8LSAwLjUgLSBtZV9jbGlja3Rocm91Z2gKdXBwZXJCb3VuZF9jbGlja3Rocm91Z2ggPC0gMC41ICsgbWVfY2xpY2t0aHJvdWdoCm9ic2VydmVkX2NsaWNrdGhyb3VnaCA8LSBlQ2xpY2tzL2VWaWV3cwpgYGAKCiogTG93ZXIgYm91bmQ6IGByIHJvdW5kKGxvd2VyQm91bmRfY2xpY2t0aHJvdWdoLDQpYAoqIFVwcGVyIGJvdW5kOiBgciByb3VuZCh1cHBlckJvdW5kX2NsaWNrdGhyb3VnaCw0KWAKKiBDb25maWRlbmNlIGludGVydmFsOiBgciByb3VuZChjbGlja190aHJvdWdoQ1RSTCAtIG1lX2NsaWNrdGhyb3VnaCw0KWAsIGByIHJvdW5kKGNsaWNrX3Rocm91Z2hDVFJMICsgbWVfY2xpY2t0aHJvdWdoLDQpYAoqIE9ic2VydmVkIHByb2JhYmlsaXR5OiBgciByb3VuZChvYnNlcnZlZF9jbGlja3Rocm91Z2gsNClgCgpBbGwgb2JzZXJ2ZWQgdmFsdWVzIGZhbGwgaW4gdGhlIGV4cGVjdGVkIHJhbmdlLCBzbyBhbGwgbWV0cmljcyBwYXNzIHRoZSBzYW5pdHkgY2hlY2suCgojIyMgUmVzdWx0IEFuYWx5c2lzCiMjIyMgRWZmZWN0IFNpemUgVGVzdHMKCmBgYHtyIGV2YWw9RkFMU0UsIGVjaG89RkFMU0V9CmNvbnRyb2xfbmEgPC0gY29udHJvbFtjb21wbGV0ZS5jYXNlcyhjb250cm9sKSxdCmV4cGVyaW1lbnRfbmEgPC0gZXhwZXJpbWVudFtjb21wbGV0ZS5jYXNlcyhleHBlcmltZW50KSxdCgpOY0Vucm9sbG1lbnQgPC0gc3VtKGNvbnRyb2xfbmEkRW5yb2xsbWVudHMsIG5hLnJtPVQpCk5lRW5yb2xsbWVudCA8LSBzdW0oZXhwZXJpbWVudF9uYSRFbnJvbGxtZW50cywgbmEucm09VCkKTmNQYXltZW50cyA8LSBzdW0oY29udHJvbF9uYSRQYXltZW50cywgbmEucm09VCkKTmVQYXltZW50cyA8LSBzdW0oZXhwZXJpbWVudF9uYSRQYXltZW50cywgbmEucm09VCkKTmNDbGlja3MgPC0gc3VtKGNvbnRyb2xfbmEkQ2xpY2tzLCBuYS5ybT1UKQpOZUNsaWNrcyA8LSBzdW0oZXhwZXJpbWVudF9uYSRDbGlja3MsIG5hLnJtPVQpCmBgYAoKIyMjIyMgR3Jvc3MgY29udmVyc2lvbgpgYGB7ciBldmFsPUZBTFNFLCBlY2hvPUZBTFNFfQpnYyA8LSAoTmNFbnJvbGxtZW50ICsgTmVFbnJvbGxtZW50KS8oTmNDbGlja3MgKyBOZUNsaWNrcykKZ2Nfc2UgPC0gc3FydChnYyooMS1nYykqKDEvTmNDbGlja3MrMS9OZUNsaWNrcykpCmdjX21lIDwtIGdjX3NlICoxLjk2CmdjX2RpZmYgPC0gKE5lRW5yb2xsbWVudC9OZUNsaWNrcykgLSAoTmNFbnJvbGxtZW50L05jQ2xpY2tzKQpgYGAKCiogIERpZmZlcmVuY2U6IGByIGdjX2RpZmZgCiogOTUlIGNvbmZpZGVuY2UgaW50ZXJ2YWw6IFtgciByb3VuZChnY19kaWZmIC0gZ2NfbWUsNClgLCBgciByb3VuZChnY19kaWZmICsgZ2NfbWUsNClgXQoKVGhlIGRpZmZlcmVuY2UgaXMgc3RhdGlzdGljYWxseSBzaWduaWZpY2FudCBhcyB0aGUgY29uZmlkZW5jZSBpbnRlcnZhbCBkb2VzIG5vdCBpbmNsdWRlIFplcm8uIEl0IGlzIGFsc28gcHJhY3RpY2FsbHkgc2lnbmlmaWNhbnQgYXMgaXQgZG9lcyBub3QgaW5jbHVkZSBkbWluLgoKIyMjIyMgTmV0IGNvbnZlcnNpb24KYGBge3IgZXZhbD1GQUxTRSwgZWNobz1GQUxTRX0KbmMgPC0gKE5jUGF5bWVudHMgKyBOZVBheW1lbnRzKS8oTmNDbGlja3MgKyBOZUNsaWNrcykKbmNfc2UgPC0gc3FydChuYyooMS1uYykqKDEvTmNDbGlja3MrMS9OZUNsaWNrcykpCm5jX21lIDwtIG5jX3NlICoxLjk2Cm5jX2RpZmYgPC0gKE5lUGF5bWVudHMvTmVDbGlja3MpIC0gKE5jUGF5bWVudHMvTmNDbGlja3MpCmBgYAoKKiAgRGlmZmVyZW5jZTogYHIgbmNfZGlmZmAKKiA5NSUgY29uZmlkZW5jZSBpbnRlcnZhbDogW2ByIHJvdW5kKG5jX2RpZmYgLSBuY19tZSw0KWAsIGByIHJvdW5kKG5jX2RpZmYgKyBuY19tZSw0KWBdCgpUaGUgY29uZmlkZW5jZSBpbnRlcnZhbCBpbmNsdWRlcyBaZXJvLCBzbyBpdCdzIG5vdCBzdGF0aXN0aWNhbGx5IHNpZ25pZmljYW50LiBJdCBpbmNsdWRlcyB0aGUgbG93ZXIgYm91bmRhcnkgZm9yIHByYWN0aWNhbCBzaWduaWZpY2FuY2UsIHNvIGl0J3MgYWxzbyBub3QgcHJhY3RpY2FsbHkgc2lnbmlmaWNhbnQuCgojIyMjIFNpZ24gVGVzdHMKVG8gZG8gYSBzaWduIHRlc3Qgd2UgY2FuIHVzZSB0aGUgYmlub20udGVzdCBmdW5jdGlvbiBpbiBSLiBJIGZpcnN0IGNyZWF0ZSBjb2x1bW5zIGluIHRoZSBkYXRhZnJhbWUgdG8gbWFrZSBpdCBlYXNpZXIgdG8gY2FsY3VsYXRlIHRoZSBkaWZmZXJlbmNlLiBJIHRoZW4gY291bnQgdGhlIG9jY3VyZW5jZXMgb2YgbmVnYXRpdmUgYW5kIHBvc2l0aXZlIHZhbHVlcy4gCgojIyMjIyBHcm9zcyBDb252ZXJzaW9uCmBgYHtyIGV2YWw9RkFMU0UsIGVjaG89RkFMU0V9CmV4cGVyaW1lbnRfbmEkZ2MgPC0gZXhwZXJpbWVudF9uYSRFbnJvbGxtZW50cy9leHBlcmltZW50X25hJENsaWNrcwpjb250cm9sX25hJGdjIDwtIGNvbnRyb2xfbmEkRW5yb2xsbWVudHMvY29udHJvbF9uYSRDbGlja3MKCmdjX3ZhbHVlcyA8LSBleHBlcmltZW50X25hJGdjIC0gY29udHJvbF9uYSRnYwpsZW5ndGgoZ2NfdmFsdWVzKQpsZW5ndGgoZ2NfdmFsdWVzW2djX3ZhbHVlcyA+IDBdKQpgYGAKClRoZXJlIHdlcmUgMjMgZGF5cyByZWNvcmRlZCBhbmQgMTkgZGF5cyBpbiB3aGljaCB0aGUgcHJvYmFiaWxpdHkgb2YgZW5yb2xsbWVudCBmb3IgdGhlIGV4cGVyaW1lbnQgZ3JvdXAgaXMgbG93ZXIgdGhhbiBmb3IgdGhlIGNvbnRyb2wgZ3JvdXAuCgpgYGB7cn0KYmlub20udGVzdCg0LDIzKQpgYGAKClRoZSBiaW5vbWljYWwgdGVzdCBnaXZlcyB1cyBhIHAtdmFsdWUgPSAwLjAwMjU5OSwgc28gdGhlIHJlc3VsdCBpcyBzdGF0aXN0aWNhbGx5IHNpZ25pZmljYW50LgoKIyMjIyMgTmV0IENvbnZlcnNpb24KYGBge3IgZXZhbD1GQUxTRSwgZWNobz1GQUxTRX0KZXhwZXJpbWVudF9uYSRuYyA8LSBleHBlcmltZW50X25hJFBheW1lbnRzL2V4cGVyaW1lbnRfbmEkQ2xpY2tzCmNvbnRyb2xfbmEkbmMgPC0gY29udHJvbF9uYSRQYXltZW50cy9jb250cm9sX25hJENsaWNrcwoKbmNfdmFsdWVzIDwtIGV4cGVyaW1lbnRfbmEkbmMgLSBjb250cm9sX25hJG5jCmxlbmd0aChuY192YWx1ZXMpCmxlbmd0aChuY192YWx1ZXNbbmNfdmFsdWVzID4gMF0pCmBgYApMaWtlIGFib3ZlLCAyMyBkYXlzIHdlcmUgcmVjb3JkZWQsIGJ1dCBoZXJlIHdlIGhhZCBvbmx5IDEwIGRheXMgd2l0aCBhbiBpbXByb3ZlbWVudC4KCgpgYGB7cn0KYmlub20udGVzdCgxMCwyMykKYGBgCgpUaGUgcC12YWx1ZSA9IDAuNjc3Niwgc28gdGhlIGRpZmZlcmVuY2UgaXMgbm90IHN0YXRpc3RpY2FsbHkgc2lnbmlmaWNhbnQuCgojIyMjIFN1bW1hcnkKVGhlIG1haW4gcmVzdWx0IG9mIHRoZSBleHBlcmltZW50IGlzIHRoYXQgdGhlIGdyb3NzIGNvbnZlcnNpb24gZGlkIGRlY3JlYXNlIHNpZ25pZmljYW50bHkuIFRoaXMgc3VwcG9ydHMgdGhlIGh5cG90aGVzaXMuIEhvd2V2ZXIsIHRoZSBuZXQgY29udmVyc2lvbiBoYWQgYSBjb25maWRlbmNlIGludGVydmFsIGFib3ZlIGFuZCBiZWxvdyB6ZXJvIGFuZCBpc3Qgbm90IHN0YXRpY2FsbHkgc2lnbmlmaWNhbnQgZm9yIHRoYXQgcmVhc29uLgoKRm9yIHRoaXMgZXhwZXJpbWVudCB0aGUgQm9uZmVycm9uaSBjb3JyZWN0aW9uIHdhcyBub3QgdXNlZCBhcyBJIGFsbCBtZXRyaWNzIGhhdmUgdG8gYmUgc3RhdGlzdGljYWxseSBzaWduaWZpY2FudCB0byByZWNvbW1lbmQgdGhlIGNoYW5nZXMgZG9uZSBpbiB0aGlzIGV4cGVyaW1lbnQuCgojIyMgUmVjb21tZW5kYXRpb24KVGhlcmUgYXJlIHR3byBtYWluIHBvaW50cyB3ZSBoYXZlIGxlYXJuZWQgZnJvbSB0aGUgZXhwZXJpbWVudDoKCiogTGVzcyB1c2VycyBlbnJvbGwgaW4gdGhlIGZyZWUgdHJpYWw6IHRoZSBHcm9zcyBjb252ZXJzaW9uIGlzIHN0YXRpc3RpY2FsbHkgYW5kIHByYWN0aWNhbGx5IGxvd2VyLCBzbyB3ZSBjYW4gYXNzdW1lIHRoYXQgdGhlIHdhcm5pbmcgcmVnYXJkaW5nIHRoZSByZXF1aXJlZCB3b3JraW5nIGhvdXJzIGhhcyBhbiBlZmZlY3QuCiogVGhlIHJlc3VsdHMgb2YgdGhlIE5ldCBjb252ZXJzaW9uIGFyZSBuZWl0aGVyIHN0YXN0aWNhbGx5IG5vciBwcmFjdGljYWxseSBzaWduaWZpY2FudC4gRnVydGhlcm1vcmUsIHRoZSBjb25maWRlbmNlIGludGVydmFsIGluY2x1ZGVzIG5lZ2F0aXZlIHZhbHVlcywgd2hpY2ggaW5kaWNhdGVzIHRoYXQgdGhlIGNoYW5nZSBjb3VsZCBldmVuIGhhdmUgYSBuZWdhdGl2ZSBpbmZsdWVuY2UgKGkuZS4gYSBsb3dlciBhbW91bnQgb2YgcGFpZCBzdWJzY3JpcHRpb25zKS4KClRoZXJlZm9yZSwgaXQgaXMgKm5vdCogcmVjb21tZW5kZWQgdG8gaW1wbGVtZW50IHRoZSBjaGFuZ2UuCgojIyBGb2xsb3ctVXAgRXhwZXJpbWVudApJbiB0aGlzIGV4cGVyaW1lbnQgd2Ugb25seSBmb2N1c3NlZCBvbiB0aGUgdGltZSBhIHVzZXIgaXMgYWJsZSB0byBzcGVuZCBvbiB0aGUgY291cnNlIGFuZCBjb25zaWRlcmVkIHRoaXMgYXMgdGhlIG1haW4gcmVhc29uIGZvciB1c2VycyB0byBjYW5jZWwgdGhlaXIgc3Vic2NyaXB0aW9uIGJlZm9yZSB0aGUgZW5kIG9mIHRoZSB0cmlhbCBwZXJpb2QuCkhvd2V2ZXIsIEkgdGhpbmsgdGhlcmUgYXJlIG1hbnkgbW9yZSByZWFzb25zIHdoeSB1c2VycyBjYW5jZWwuIE9uZSwgd2hpY2ggSSBjb25zaWRlciBxdWl0ZSBsaWtlbHkgZm9yIE5hbm9kZWdyZWUgcHJvZ3JhbXMgaXMgdGhhdCB1c2VyIGFyZSBqdXN0IG92ZXJjaGFsbGVuZ2VkIGJ5IHRoZSBsb25nIGxpc3Qgb2YgY291cnNlIG1hdGVyaWFsLiBUaGV5IG1pZ2h0IGFsc28gaGF2ZSBwcm9ibGVtcyB0byBzdGFydCB3aXRoIGEgdG9waWMgYmVjYXVzZSB0aGV5IGFyZSBtaXNzaW5nIGJhc2ljcy4KCk15IGlkZWEgd291bGQgYmUgdG8gY29udGFjdCB1c2VycyBhZnRlciBoYWxmIG9mIHRoZSB0cmlhbCBwZXJpb2QgKGkuZS4gNyBkYXlzKSBhbmQgaW52aXRlIHVzZXJzIHRvIGdldCBzb21lIGV4cGVydCBhZHZpY2UgaW4gY2FzZSB0aGVyZSBhcmUgYW55IHByb2JsZW1zIHdpdGggdGhlIGNvbnRlbnQuIFRoaXMgZG9lcyBub3QgbmVjZXNzYXJpbHkgcmVxdWlyZSBhbiBpbmRpdmlkdWFsIHBlcnNvbmFsIGd1aWRhbmNlLCBidXQgYW4gaW4tZGVwdGggCgpJIHdvdWxkIHVzZSB0aGUgc2FtZSBtZXRyaWNzIGFuZCB0aGUgc2FtZSBkaXZlcnNpb24gbGlrZSBpbiB0aGlzIGV4cGVyaW1lbnQuIE15IG51bGwgaHlwb3RoZXNpcyB3b3VsZCBiZTogU2VuZGluZyB1c2VycyBlbWFpbHMgdG8gaW52aXRlIHRoZW0gdG8gZ2V0IHNvbWUgZXhwZXJ0IGFkdmljZSB3aWxsIG5vdCBpbmNyZWFzZSB0aGUgbnVtYmVyIG9mIGVucm9sbG1lbnRzLgoKIyMgUmVzc291cmNlcwoqIFVkYWNpdHkgY291cnNlIG1hdGVyaWFs</div>
 
 
 
@@ -265,7 +518,7 @@ $(document).ready(function () {
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>
