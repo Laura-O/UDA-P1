@@ -42,3 +42,10 @@ The goal of the project is to use a machine learning algorithm to predict the pe
 The results were described in a Jupyter Notebook which you can find [here](https://github.com/Laura-O/Udacity-Data-Analyst-Nanodegree/blob/master/Project_5/Enron_POI_detection.ipynb).
 
 Most important libraries used in this project: scikit-learn, pandas, numpy
+
+### P6: Visualize data
+The goal of the project is to visualize some intersting data. I chose to visualize data from the database of the [World Cube Association](http://www.worldcubeassociation.org), showing all competitors who have competed in more than 50 [speedcubing](https://en.wikipedia.org/wiki/Speedcubing) competitions.
+
+![](Project_6/images/final_visualization.png)
+
+Languages and framworks used: D3.js, HTML, Bootstrap, R
