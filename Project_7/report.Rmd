@@ -29,25 +29,36 @@ boundary (and thus make at least one payment) divided by the number of unique
 cookies to click the "Start free trial" button.
 
 #### Invariant metrics
-Invariant metrics shouldn't change across the experimental and the control group. They can be used to check the integrity of the measurement after the experiment.
+Invariant metrics shouldn't change across the experiment and the control group. They can be used to check the integrity of the measurement after the experiment.
 
 The main goal of this experiment is to see how users react to the new query message displayed after they want to join for the trial. Therefore, the following variables do not change:
 
-* Number of cookies: The number represents the unique visitors of the website. The aim is to split them between the experimental and the control group.
-* Number of clicks: The experiment is focusing on the part after the "Start free trial" button has been pressed. Therefore, the number of clicks should be the same across the experimental and the control group.
-* Click-through-probability: This probability is the number of clicks divided by the number of cookies. As both of these variables are invariant, the click-through-probability is invariant as well.
+* Number of cookies: The number represents the unique visitors of the website.
+    + The aim is to split them between the experiment and the control group. For this reason, the cookie is an invariant metric.
+    + The number of cookies is not an evaluation metric, because it should not be different between the control and the experiment group.
+* Number of clicks: The experiment is focusing on the part after the "Start free trial" button has been pressed.
+    + For this reason, the number of clicks should be the same across the experiment and the control group.
+    + As it will not be possible to meassure a difference with this metric, it is not an evaluation metric.
+* Click-through-probability: This probability is the number of clicks divided by the number of cookies.
+    + As both of these variables are invariant (see above for the explanation), the click-through-probability is invariant as well.
 
 #### Evaluation metrics
-Evaluation metrics are expected to show the changes across the experimental and the control group. For this experiment we have the following evaluation metrics:
+Evaluation metrics are expected to show the changes across the experiment and the control group. For this experiment we have the following evaluation metrics:
 
-* Gross conversion: The hypothesis is that the gross conversion for the experimental group is lower than the gross conversion for the control group.
-* Net conversion: The net conversion is the evaluation metric representing the number of students who keep subscribed after the free trial period. The hypothesis is that it doesn't change significantly for the experimental group.
+* Gross conversion: This is the number of user-ids to complete the checkout divided by the number of cookies who click the "Free trial"-button.
+    + The hypothesis is that the gross conversion for the experiment group is lower than the gross conversion for the control group.
+* Net conversion: The net conversion is the evaluation metric representing the number of students who keep subscribed after the free trial period.
+    + The hypothesis is that it doesn't decrease significantly for the experiment group. For that reason, it is an evaluation metric.
+    + For the same reason, net conversion cannot be a a invariant metric.
 
-#### Other
-* Number of user-ids
-* Retention
+#### Metrics not used here
+* Number of user-ids: The number of user-ids represents the number of people who enroll in the free trial period.
+    + The number of user-ids can be considered as an evaluation metric because we could compare the absolute difference between the experimental and the control group. However, the gross conversion is a much better metric because it is the relative difference.
+    + The number of user-ids is not an invariant metric, as we expect it to be different between the groups.
+* Retention: Retention is the number of user-ids enrolled after the trial period divided by the user-ids completing the checkout.
+    + This metric can be considered as an evaluation metric as we expect it to be different between the groups. For this reason, it cannot be a invariant metric.
+    + However, I will not use retention as an evaluation metric in this experiment because it does not add more value to our experiment. It equals the probability of a payment divided by the probability of the enrollment.  
 
-The number of user-ids alone does not give us any valuable information. We are interested in the number of people who actually enroll.
 
 ### Measuring Standard Deviation
 * Unique cookies to view page per day:	40000
@@ -103,12 +114,14 @@ The SD for net conversion is `r clicks_sd`.
 As the project should have appropriate numbersfor both metrics, we have to use the higher number of pageviews. So we have to get 685.275 pageviews.
 
 #### Duration vs. Exposure
-According to the numbers given above, there are 40000 unique visitors per day. To have 6825275 pageviews, the experiment will have to run for ``r round(6825275/40000,0)`` days.
+According to the numbers given above, there are 40000 unique visitors per day. To have 685.275 pageviews, the experiment will have to run for ``r round(685275/40000,0)`` days.
 The free-trial period is 14 days, so the total amount of time this experiment will take is 32 days. I think this is a reasonable timespan.
 
-I do not think that the experiment is risky in any way. The question is not ethically problematic and is not sensitive. It might be possible to draw some conclusions from the information. For example, if users are able to spend 30 hours on the course, it's unlikely that they have a full-time job. 
+I do not think that the experiment is risky in any way. Users who plan to invest only a small amount of time on the course receive a warning. They can still join the course.
 
-There can be a small financial risk for Udacity. If we assume that less visitors subscribe for the free trial when they are asked how much time they can spent, there might also be less visitors who continue the course after the free trial.
+The experiment is not ethically problematic and the data is not sensitive. It might be possible to draw some conclusions from the information. For example, if users are able to spend 30 hours on the course, it's unlikely that they have a full-time job. But this information is not very confidential.
+
+There is a risk that net conversion will decrease significantly, which would mean a loss of money for Udacity.
 
 ## Experiment Analysis
 ### Sanity Checks
@@ -249,23 +262,46 @@ The p-value = 0.6776, so the difference is not statistically significant.
 #### Summary
 The main result of the experiment is that the gross conversion did decrease significantly. This supports the hypothesis. However, the net conversion had a confidence interval above and below zero and ist not statically significant for that reason.
 
-For this experiment the Bonferroni correction was not used as I all metrics have to be statistically significant to recommend the changes done in this experiment.
+For this experiment the Bonferroni correction was not used because all evaluation metrics need to be statistically significant to recommend the changes.
+
+In an experiment like this, the risk of a Type II error decreases compared to an experiment in which only one metric out of all metrics needs to be statistically significant. In the latter, using the Bonferroni correction is recommended because it is more conservative, so the risk of a Type II error is lowre.
 
 ### Recommendation
 There are two main points we have learned from the experiment:
 
 * Less users enroll in the free trial: the Gross conversion is statistically and practically lower, so we can assume that the warning regarding the required working hours has an effect.
-* The results of the Net conversion are neither stastically nor practically significant. Furthermore, the confidence interval includes negative values, which indicates that the change could even have a negative influence (i.e. a lower amount of paid subscriptions).
+* The results of the Net conversion are neither stastically nor practically significant.
+    + Furthermore, the confidence interval includes negative values and the negative of the practical significance bondary, which indicates that the change could even have a negative influence (i.e. a lower amount of paid subscriptions, the second part of our hypothesis).
 
 Therefore, it is *not* recommended to implement the change.
 
 ## Follow-Up Experiment
+### Description
 In this experiment we only focussed on the time a user is able to spend on the course and considered this as the main reason for users to cancel their subscription before the end of the trial period.
 However, I think there are many more reasons why users cancel. One, which I consider quite likely for Nanodegree programs is that user are just overchallenged by the long list of course material. They might also have problems to start with a topic because they are missing basics.
 
-My idea would be to contact users after half of the trial period (i.e. 7 days) and invite users to get some expert advice in case there are any problems with the content. This does not necessarily require an individual personal guidance, but an in-depth 
+My idea would be to contact users after half of the trial period (i.e. 7 days) and invite users to get some expert advice in case there are any problems with the content. This does not necessarily require an individual personal guidance, but an in-depth analysis of the problem. This could be supported by a well-sorted list of additional course material (similar to the recommendations users get in the nanodegrees).
+To make sure that users read this invitation, it could be shown when logging in but also send via email.
 
-I would use the same metrics and the same diversion like in this experiment. My null hypothesis would be: Sending users emails to invite them to get some expert advice will not increase the number of enrollments.
+#### Hypothesis
+Sending users emails to invite them to get some expert advice will increase the number of enrollments after the free trial period.
+
+#### Metrics
+The metrics would be similar to the metrics used in this experiment.
+
+##### Invariant metrics
+* Number of cookies: The number represents the unique visitors of the website.
+* Click-through-probability: This probability is the number of clicks divided by the number of cookies.
+
+##### Evaluation metrics
+* Net conversion: The net conversion is the evaluation metric representing the number of students who keep subscribed after the free trial period.
+
+#### Downsides
+This experiment setting has some downsides:
+It is not completely clear if users actually read and use the material they received as help or if they just ignore them.
+If external websites or videos are used, it wouldn't be possibel to track if users read or watch them. However, even if this was possible, this would become a more ethically problematic experiment as it would mean many users would have to be monitored in a very detailed way.
 
 ## Ressources
 * Udacity course material
+* [http://www.stat.berkeley.edu/~mgoldman/Section0402.pdf](http://www.stat.berkeley.edu/~mgoldman/Section0402.pdf)
+* [When to use the Bonferroni correction](http://onlinelibrary.wiley.com/doi/10.1111/opo.12131/full)
