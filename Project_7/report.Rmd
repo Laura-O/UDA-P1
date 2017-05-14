@@ -48,7 +48,7 @@ Evaluation metrics are expected to show the changes across the experiment and th
 * Gross conversion: This is the number of user-ids to complete the checkout divided by the number of cookies who click the "Free trial"-button.
     + The hypothesis is that the gross conversion for the experiment group is lower than the gross conversion for the control group.
 * Net conversion: The net conversion is the evaluation metric representing the number of students who keep subscribed after the free trial period.
-    + The hypothesis is that it doesn't decrease significantly for the experiment group. For that reason, it is an evaluation metric.
+    + The hypothesis is that it doesn't decrease for the experiment group. For that reason, it is an evaluation metric.
     + For the same reason, net conversion cannot be a a invariant metric.
 
 #### Metrics not used here
@@ -57,7 +57,7 @@ Evaluation metrics are expected to show the changes across the experiment and th
     + The number of user-ids is not an invariant metric, as we expect it to be different between the groups.
 * Retention: Retention is the number of user-ids enrolled after the trial period divided by the user-ids completing the checkout.
     + This metric can be considered as an evaluation metric as we expect it to be different between the groups. For this reason, it cannot be a invariant metric.
-    + However, I will not use retention as an evaluation metric in this experiment because it does not add more value to our experiment. It equals the probability of a payment divided by the probability of the enrollment.  
+    + However, I will not use retention as an evaluation metric in this experiment because we only have a small amount of data for payments and enrollments. We would have to collect more, which would make the experiment last longer.
 
 
 ### Measuring Standard Deviation
@@ -87,6 +87,8 @@ clicks_sd <- round(clicks_sd,4)
 
 The SD for net conversion is `r clicks_sd`.
 
+The unit of diversion in this experiment is a cookie, which is also the unit of analysis for both metrics. Therefore, the analytic and empirical variability are expected to be comparable
+
 ### Sizing
 #### Number of Samples vs. Power
 ##### Gross conversion
@@ -114,14 +116,13 @@ The SD for net conversion is `r clicks_sd`.
 As the project should have appropriate numbersfor both metrics, we have to use the higher number of pageviews. So we have to get 685.275 pageviews.
 
 #### Duration vs. Exposure
-According to the numbers given above, there are 40000 unique visitors per day. To have 685.275 pageviews, the experiment will have to run for ``r round(685275/40000,0)`` days.
-The free-trial period is 14 days, so the total amount of time this experiment will take is 32 days. I think this is a reasonable timespan.
+According to the numbers given above, there are 40000 unique visitors per day. To have 685.275 pageviews, the experiment will have to run for ``r ceiling(685275/40000)`` days.
 
 I do not think that the experiment is risky in any way. Users who plan to invest only a small amount of time on the course receive a warning. They can still join the course.
 
-The experiment is not ethically problematic and the data is not sensitive. It might be possible to draw some conclusions from the information. For example, if users are able to spend 30 hours on the course, it's unlikely that they have a full-time job. But this information is not very confidential.
+The experiment is not ethically problematic and the data is not sensitive. It might be possible to draw some conclusions from the information. For example, if users are able to spend more than 30 hours on the course, it's unlikely that they have a full-time job. But this information is not very confidential.
 
-There is a risk that net conversion will decrease significantly, which would mean a loss of money for Udacity.
+There is a risk that net conversion will decrease significantly, which would mean a loss of money for Udacity. The implementation is also not problematic as no new hardware or extensive changes of the website are required.
 
 ## Experiment Analysis
 ### Sanity Checks
@@ -284,17 +285,16 @@ My idea would be to contact users after half of the trial period (i.e. 7 days) a
 To make sure that users read this invitation, it could be shown when logging in but also send via email.
 
 #### Hypothesis
-Sending users emails to invite them to get some expert advice will increase the number of enrollments after the free trial period.
+Sending users emails to invite them to get expert advice will increase the number of students who keep enrolled after the free trial period.
 
 #### Metrics
-The metrics would be similar to the metrics used in this experiment.
+The metrics would be similar to the metrics used in this experiment. As this experiment takes place after users register, we should not use any metrics involving cookies or clicks. The unit of diversion is the user-id.
 
 ##### Invariant metrics
-* Number of cookies: The number represents the unique visitors of the website.
-* Click-through-probability: This probability is the number of clicks divided by the number of cookies.
+* Number of user-ids: That is, number of users who enroll in the free trial.
 
 ##### Evaluation metrics
-* Net conversion: The net conversion is the evaluation metric representing the number of students who keep subscribed after the free trial period.
+* Retention: The number of user-ids to remain enrolled past the 14-day boundary (and thus make at least one payment) divided by number of user-ids to complete checkout.
 
 #### Downsides
 This experiment setting has some downsides:
