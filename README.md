@@ -2,7 +2,7 @@
 
 :bar_chart: These are projects I have made for the [Udacity Data Analyst Nanodegree](https://www.udacity.com/course/data-analyst-nanodegree--nd002/).
 
-![](images/certificate.png)
+![](Images/certificate.png)
 
 ## Does the code work?
 I graduated from the nanodegree in May 2017. The projects in this repository are in their final state, which means this is the version I submitted and which was accepted.
