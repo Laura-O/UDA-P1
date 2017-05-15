@@ -1,5 +1,14 @@
 # Udacity-Data-Analyst-Nanodegree
+
 :bar_chart: These are projects I have made for the [Udacity Data Analyst Nanodegree](https://www.udacity.com/course/data-analyst-nanodegree--nd002/).
+
+![](images/certificate.png)
+
+## Does the code work?
+I graduated from the nanodegree in May 2017. The projects in this repository are in their final state, which means this is the version I submitted and which was accepted.
+
+Reading other projects people have put on Github has helped me a lot throughout the complete course, so I hope that my projects will be helpful for someone as well.
+
 
 ### P1: Test a Perceptual Phenomenon - Use descriptive statistics and a statistical test to analyze the Stroop effect
 This project is a descriptive analysis and test of the Stroop effect. It was implemented in RMarkdown.
@@ -48,4 +57,9 @@ The goal of the project is to visualize some intersting data. I chose to visuali
 
 ![](Project_6/images/final_visualization.png)
 
-Languages and framworks used: D3.js, HTML, Bootstrap, R
+Languages and frameworks used: D3.js, HTML, Bootstrap, R
+
+### P7: Design and Analyze an A/B Test
+Compared to the other projects, this project is very theoretical. It is a report about several design decisions for an A/B test, e.g. what metrics should be chosen or how long the test should run.
+
+Languages used: R, RMarkdown
