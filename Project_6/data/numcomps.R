@@ -8,7 +8,7 @@ numComps <- aggregate(results$competitionId ~ results$personId, FUN = function(x
 colnames(numComps) <- c("id","value")
 
 # subset
-numComps <- subset(numcomps, value > 50)
+numComps <- subset(numComps, value > 50)
 
 # add the name + country
 numComps <- merge(x=numComps, y=persons[, c("id","name","countryId")], by.x="id", by.y="id")
