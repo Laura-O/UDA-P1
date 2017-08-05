@@ -1,53 +1,49 @@
 function bubbleChart() {
-  var width = 1000,
-    height = 800,
-    columnForColors = "countryId",
-    ncomps = "value";
+  const width = 1000,
+        height = 800,
+        columnForColors = "countryId",
+        ncomps = "value";
 
   // Create the chart
   function chart(selection) {
-    var data = selection.enter().data();
-    var div = selection,
-      svg = div.selectAll("svg");
+    const data = selection.enter().data();
+    const div = selection,
+        svg = div.selectAll("svg");
 
     svg.attr("width", width).attr("height", height);
 
     // Set color by country
-    var schemes = d3.schemeCategory20.concat(d3.schemeCategory20b);
-    var colour = d3.scaleOrdinal(schemes);
+    const schemes = d3.schemeCategory20.concat(d3.schemeCategory20b);
+    const colour = d3.scaleOrdinal(schemes);
 
-    var tooltip = selection
+    const tooltip = selection
       .append("div")
       .attr("class", "circletip")
       .text("");
 
     // Create new simulation with forces
-    var simulation = d3.forceSimulation(data)
+    const simulation = d3.forceSimulation(data)
       .force("x", d3.forceX(500).strength(0.10))
       .force("y", d3.forceY(400).strength(0.10))
       .force("charge", d3.forceManyBody().strength(10))
       .force("collide",
         d3.forceCollide()
-        .radius(function(d) {
-          return d.r + 15;
-        })
+        .radius((d) => d.r + 15)
         .iterations(2));
 
     // Set the radius of the bubbles according to ncomps
-    var scaleRadius = d3.scaleLinear().domain([d3.min(data, function(d) {
-      return +d[ncomps];
-    }), d3.max(data, function(d) {
-      return +d[ncomps];
-    })]).range([10, 45])
+    const scaleRadius = d3.scaleLinear().domain([d3.min(data, (d) =>
+      +d[ncomps]
+    ), d3.max(data, (d) =>
+      +d[ncomps]
+    )]).range([10, 45])
 
     // Draw circles
-    var node = svg.selectAll(".circles")
+    const node = svg.selectAll(".circles")
       .data(data)
       .enter()
       .append("circle")
-      .attr("r", function(d) {
-        return scaleRadius(d[ncomps])
-      })
+      .attr("r", (d) => scaleRadius(d[ncomps]))
       .attr("fill", (d, i) => colour(d[columnForColors]))
       .attr("fill-opacity", "0.8")
       // Show tooltip on mouseover
@@ -58,10 +54,9 @@ function bubbleChart() {
         return tooltip.style("visibility", "visible");
       })
       // Move tooltip when mouse is moved over circle
-      .on("mousemove", function() {
-        return tooltip.style("top", (d3.event.pageY - 10) + "px")
-          .style("left", (d3.event.pageX + 10) + "px");
-      })
+      .on("mousemove", () =>
+        tooltip.style("top", (d3.event.pageY - 10) + "px")
+          .style("left", (d3.event.pageX + 10) + "px"))
       // Remove tooltip
       .on("mouseout", function() {
         d3.select(this).attr("fill-opacity", "0.8");
@@ -105,7 +100,7 @@ function bubbleChart() {
         node.attr("cx", d => d.x).attr("cy", d => d.y);
       });
 
-    var legend = d3.legendColor()
+    const legend = d3.legendColor()
       .scale(colour);
 
     svg.append("g")
